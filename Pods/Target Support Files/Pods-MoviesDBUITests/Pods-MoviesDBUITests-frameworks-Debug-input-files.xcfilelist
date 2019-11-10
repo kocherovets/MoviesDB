@@ -1,0 +1,5 @@
+${PODS_ROOT}/Target Support Files/Pods-MoviesDBUITests/Pods-MoviesDBUITests-frameworks.sh
+${BUILT_PRODUCTS_DIR}/DeclarativeTVC/DeclarativeTVC.framework
+${BUILT_PRODUCTS_DIR}/DifferenceKit/DifferenceKit.framework
+${BUILT_PRODUCTS_DIR}/RedSwift/RedSwift.framework
+${BUILT_PRODUCTS_DIR}/ReduxVM/ReduxVM.framework
