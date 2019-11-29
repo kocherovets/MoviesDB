@@ -5,7 +5,9 @@ inhibit_all_warnings!
 use_frameworks!
 
 def shared_pods
-    pod 'ReduxVM'
+    pod 'ReduxVM', :git => 'https://github.com/kocherovets/ReduxVM.git', :branch => 'master'
+    pod 'Moya', '~> 13.0'
+    pod 'Kingfisher', '~> 5.0'
 end
 
 target "MoviesDB" do

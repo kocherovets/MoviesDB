@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (4.9.1)
   - DeclarativeTVC (1.0.6):
     - DifferenceKit
   - DifferenceKit (1.1.3):
@@ -7,27 +8,55 @@ PODS:
   - DifferenceKit/Core (1.1.3)
   - DifferenceKit/UIKitExtension (1.1.3):
     - DifferenceKit/Core
-  - RedSwift (1.0.2)
-  - ReduxVM (1.0.2):
+  - Kingfisher (5.10.1):
+    - Kingfisher/Core (= 5.10.1)
+  - Kingfisher/Core (5.10.1)
+  - Moya (13.0.1):
+    - Moya/Core (= 13.0.1)
+  - Moya/Core (13.0.1):
+    - Alamofire (~> 4.1)
+    - Result (~> 4.1)
+  - RedSwift (1.0.4)
+  - ReduxVM (1.0.3):
     - DeclarativeTVC
     - RedSwift
+  - Result (4.1.0)
 
 DEPENDENCIES:
-  - ReduxVM
+  - Kingfisher (~> 5.0)
+  - Moya (~> 13.0)
+  - ReduxVM (from `https://github.com/kocherovets/ReduxVM.git`, branch `master`)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
+    - Alamofire
     - DeclarativeTVC
     - DifferenceKit
+    - Kingfisher
+    - Moya
     - RedSwift
-    - ReduxVM
+    - Result
+
+EXTERNAL SOURCES:
+  ReduxVM:
+    :branch: master
+    :git: https://github.com/kocherovets/ReduxVM.git
+
+CHECKOUT OPTIONS:
+  ReduxVM:
+    :commit: d7dc3687adcc4366e4edd9d98df935c7b9663fae
+    :git: https://github.com/kocherovets/ReduxVM.git
 
 SPEC CHECKSUMS:
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
   DeclarativeTVC: 7baf25125f2f984bf6b7f0e49ab83c44db8cb44c
   DifferenceKit: 5018791b6c1fc839921a3c171a0a539ace6ea60c
-  RedSwift: b5438ccbd85efcc908ffa2bed6977fb2cbf01723
-  ReduxVM: 8f71dfaf86a9c9d4f1608133810f073c78c7d78a
+  Kingfisher: eb36b7dfcc78d60877051c92c119a2865972961a
+  Moya: f4a4b80ff2f8a4ffc208dfb31cd91636622fee6e
+  RedSwift: 545536d7ff140410fafa0f91f896b76a1e99d883
+  ReduxVM: 89c89cd5c51c84f1efc410a64337f73870b48935
+  Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
 
-PODFILE CHECKSUM: a9063f6d0fe2d468f88654e5c760d078c7f95840
+PODFILE CHECKSUM: 3d2b6877761e753e30c9b41f012f36c83b120d7b
 
 COCOAPODS: 1.8.4

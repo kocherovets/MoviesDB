@@ -161,16 +161,24 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/DeclarativeTVC/DeclarativeTVC.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/DifferenceKit/DifferenceKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Moya/Moya.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RedSwift/RedSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ReduxVM/ReduxVM.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Result/Result.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/DeclarativeTVC/DeclarativeTVC.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/DifferenceKit/DifferenceKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Moya/Moya.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RedSwift/RedSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ReduxVM/ReduxVM.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Result/Result.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait
