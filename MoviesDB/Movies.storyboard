@@ -229,17 +229,10 @@
                                             <subviews>
                                                 <view contentMode="scaleToFill" verticalCompressionResistancePriority="752" translatesAutoresizingMaskIntoConstraints="NO" id="zwc-vc-vRE" customClass="PosterStubView" customModule="MoviesDB" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="150"/>
-                                                    <subviews>
-                                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="lua-aJ-ypk">
-                                                            <rect key="frame" x="40" y="65" width="20" height="20"/>
-                                                        </activityIndicatorView>
-                                                    </subviews>
                                                     <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="100" id="7jk-Tp-8Jh"/>
-                                                        <constraint firstItem="lua-aJ-ypk" firstAttribute="centerY" secondItem="zwc-vc-vRE" secondAttribute="centerY" id="9n3-Wb-8sw"/>
                                                         <constraint firstAttribute="height" constant="150" id="Peg-fE-kDR"/>
-                                                        <constraint firstItem="lua-aJ-ypk" firstAttribute="centerX" secondItem="zwc-vc-vRE" secondAttribute="centerX" id="vaX-9K-wTn"/>
                                                     </constraints>
                                                 </view>
                                                 <stackView opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="ywh-IK-79q">
