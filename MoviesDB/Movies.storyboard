@@ -108,26 +108,16 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" alignment="center" spacing="17" translatesAutoresizingMaskIntoConstraints="NO" id="NOL-8R-LNh">
                                             <rect key="frame" x="16" y="10" width="382" height="184"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" verticalCompressionResistancePriority="752" translatesAutoresizingMaskIntoConstraints="NO" id="gg8-Oe-WZ8">
+                                                <view contentMode="scaleToFill" verticalCompressionResistancePriority="752" translatesAutoresizingMaskIntoConstraints="NO" id="gg8-Oe-WZ8" customClass="PosterView" customModule="MoviesDB" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="17" width="100" height="150"/>
-                                                    <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lmR-vo-CYM">
-                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="150"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="150" id="hZG-Mc-jJS"/>
-                                                                <constraint firstAttribute="width" constant="100" id="q13-E9-YR3"/>
-                                                            </constraints>
-                                                        </imageView>
-                                                    </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="150" id="5VG-x0-IEn"/>
-                                                        <constraint firstItem="lmR-vo-CYM" firstAttribute="leading" secondItem="gg8-Oe-WZ8" secondAttribute="leading" id="5p4-ij-tTj"/>
                                                         <constraint firstAttribute="width" constant="100" id="QAr-DQ-YS6"/>
-                                                        <constraint firstItem="lmR-vo-CYM" firstAttribute="top" secondItem="gg8-Oe-WZ8" secondAttribute="top" id="SEa-Wv-Mxa"/>
-                                                        <constraint firstAttribute="trailing" secondItem="lmR-vo-CYM" secondAttribute="trailing" id="dQw-Te-D8B"/>
-                                                        <constraint firstAttribute="bottom" secondItem="lmR-vo-CYM" secondAttribute="bottom" id="iYl-PJ-vOF"/>
                                                     </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="shadowed" value="NO"/>
+                                                    </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <stackView opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="LIz-sQ-Xww">
                                                     <rect key="frame" x="117" y="0.0" width="265" height="184"/>
@@ -225,8 +215,7 @@
                                 <connections>
                                     <outlet property="dateLabel" destination="mDe-Ru-0TH" id="kGM-Fc-OUh"/>
                                     <outlet property="overviewLabel" destination="O4d-21-d8A" id="ndP-79-eKp"/>
-                                    <outlet property="posterIV" destination="lmR-vo-CYM" id="0Lg-ZB-G7L"/>
-                                    <outlet property="posterIVPanel" destination="gg8-Oe-WZ8" id="LyZ-wO-yh7"/>
+                                    <outlet property="posterV" destination="gg8-Oe-WZ8" id="kN8-Yt-HB4"/>
                                     <outlet property="titleL" destination="JoE-wN-7g0" id="yQr-bX-Dho"/>
                                     <outlet property="votePercentageLabel" destination="2x2-Id-dtz" id="cOb-EJ-mqx"/>
                                 </connections>
