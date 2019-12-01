@@ -33,6 +33,6 @@ struct MovieCellVM: CellModel {
         cell.overviewLabel.text = overview
         cell.dateLabel.text = date
         cell.votePercentageLabel.text = "\(votePercentage)%"
-        cell.posterV.posterIV.kf.setImage(with: ImageService.Size.small.url(poster: posterPath))
+        cell.posterV.posterIV?.kf.setImage(with: ImageService.Size.small.url(poster: posterPath))
     }
 }

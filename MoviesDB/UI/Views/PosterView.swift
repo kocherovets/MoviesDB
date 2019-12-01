@@ -8,107 +8,89 @@
 
 import UIKit
 
-
-
-//@IBDesignable
-//class PosterView: UIImageView {
-//
-//    @IBInspectable var shadowed: Bool = true {
-//        didSet {
-//            if shadowed {
-//                layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4).cgColor
-//                layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
-//                layer.shadowOpacity = 1.0
-//                layer.shadowRadius = 8.0
-//                layer.masksToBounds = false
-//            } else {
-//                layer.shadowColor = nil
-//                layer.masksToBounds = true
-//            }
-//        }
-//    }
-//
-//    override func prepareForInterfaceBuilder() {
-//        super.prepareForInterfaceBuilder()
-//
-//        let dynamicBundle = Bundle(for: type(of: self))
-//        image = UIImage(named: "posterSample", in: dynamicBundle, compatibleWith: nil)
-////        image = UIImage(named: "posterSample")
-//    }
-//}
-
 @IBDesignable
-class PosterView: UIView {
+class PosterView: NibView {
 
     @IBInspectable var shadowed: Bool = true {
         didSet {
-            if shadowed {
-                layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4).cgColor
-                layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
-                layer.shadowOpacity = 1.0
-                layer.shadowRadius = 8.0
-                layer.masksToBounds = false
-            } else {
-                layer.shadowColor = nil
-                layer.masksToBounds = true
-            }
+            updateUI()
+        }
+    }
+
+    @IBInspectable var conerRadius: CGFloat = 5 {
+        didSet {
+            updateUI()
         }
     }
 
     @IBOutlet weak var posterIV: UIImageView!
 
-    var containerView: UIView?
-    var nibName: String? = "PosterView"
+    override func setup() {
 
-//    override init(frame: CGRect) {
-//        super.init(frame: frame)
-//
-//        loadView()
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        super.init(coder: coder)
-//
-//        loadView()
-//    }
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        loadView()
+        updateUI()
     }
 
-    func loadView() {
+    private func updateUI() {
+        if shadowed {
+            layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4).cgColor
+            layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
+            layer.shadowOpacity = 1.0
+            layer.shadowRadius = 8.0
+            layer.masksToBounds = false
+        } else {
+            layer.shadowColor = nil
+            layer.masksToBounds = true
+        }
 
-        let nibName2 = nibName ?? String(describing: type(of: self))
-        backgroundColor = .clear
-
-        let bundle = Bundle(for: type(of: self))
-        let nib = UINib(nibName: nibName2, bundle: bundle)
-        containerView = nib.instantiate(withOwner: self, options: nil).first as? UIView
-        containerView?.frame = bounds
-        containerView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        containerView?.translatesAutoresizingMaskIntoConstraints = true
-
-        addSubview(containerView!)
-
-        setup()
-    }
-
-    func setup() {
-
-        posterIV.layer.cornerRadius = 5
+        if posterIV != nil {
+            posterIV.layer.cornerRadius = conerRadius
+            layer.cornerRadius = conerRadius
+        }
     }
 
     override func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
-        loadView()
-        let dynamicBundle = Bundle(for: type(of: self))
-        posterIV.image = UIImage(named: "posterSample", in: dynamicBundle, compatibleWith: nil)
+        posterIV.image = UIImage(named: "posterSample", in: Bundle(for: type(of: self)), compatibleWith: nil)
     }
-
-//    override func prepareForInterfaceBuilder() {
-//        super.prepareForInterfaceBuilder()
-//        posterIV.image = UIImage(named: "posterSample")
-//    }
 }
 
+@IBDesignable
+class PosterStubView: UIView {
+
+    @IBInspectable var shadowed: Bool = false {
+        didSet {
+            updateUI()
+        }
+    }
+
+    @IBInspectable var conerRadius: CGFloat = 5 {
+        didSet {
+            updateUI()
+        }
+    }
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        updateUI()
+    }
+
+    private func updateUI() {
+        if shadowed {
+            layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4).cgColor
+            layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
+            layer.shadowOpacity = 1.0
+            layer.shadowRadius = 8.0
+            layer.masksToBounds = false
+        } else {
+            layer.shadowColor = nil
+            layer.masksToBounds = true
+        }
+
+        layer.cornerRadius = conerRadius
+    }
+
+    override func prepareForInterfaceBuilder() {
+        super.prepareForInterfaceBuilder()
+        updateUI()
+    }
+}

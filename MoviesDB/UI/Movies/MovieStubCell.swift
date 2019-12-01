@@ -12,14 +12,6 @@ import Kingfisher
 
 class MovieStubCell: UITableViewCell {
 
-    @IBOutlet fileprivate weak var posterIV: UIImageView!
-    @IBOutlet fileprivate weak var posterIVPanel: UIView!
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        posterIV.layer.cornerRadius = 5
-    }
 }
 
 struct MovieStubCellVM: CellModel {
