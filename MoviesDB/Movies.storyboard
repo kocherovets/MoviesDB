@@ -116,7 +116,7 @@
                                                         <constraint firstAttribute="width" constant="100" id="QAr-DQ-YS6"/>
                                                     </constraints>
                                                     <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="shadowed" value="NO"/>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="shadowed" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <stackView opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="LIz-sQ-Xww">
