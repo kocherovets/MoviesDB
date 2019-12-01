@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -283,6 +284,72 @@
                                         <constraint firstAttribute="trailing" secondItem="N1E-Yy-pSA" secondAttribute="trailing" id="ufb-bC-iFW"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="CollectionCell" id="eX6-1R-6IE" customClass="CollectionCell" customModule="MoviesDB" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="468" width="414" height="175"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="eX6-1R-6IE" id="WR4-d0-ebf">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="175"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="pU8-vf-ZlU">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="175"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" priority="999" constant="175" id="5n8-xi-BfK"/>
+                                            </constraints>
+                                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="16" minimumInteritemSpacing="16" id="JPx-qP-W4P">
+                                                <size key="itemSize" width="100" height="149"/>
+                                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                <inset key="sectionInset" minX="16" minY="10" maxX="16" maxY="10"/>
+                                            </collectionViewFlowLayout>
+                                            <cells>
+                                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ColorCell" id="qgD-gf-KzU" customClass="ColorCell" customModule="MoviesDB" customModuleProvider="target">
+                                                    <rect key="frame" x="16" y="12.5" width="100" height="150"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="vtj-cr-nci">
+                                                        <rect key="frame" x="0.0" y="0.0" width="100" height="150"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rzm-kl-xIh" customClass="PosterView" customModule="MoviesDB" customModuleProvider="target">
+                                                                <rect key="frame" x="0.0" y="0.0" width="100" height="150"/>
+                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" priority="999" constant="100" id="6QD-6J-UZS"/>
+                                                                    <constraint firstAttribute="height" priority="999" constant="150" id="yz0-iG-flB"/>
+                                                                </constraints>
+                                                                <userDefinedRuntimeAttributes>
+                                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="shadowed" value="NO"/>
+                                                                </userDefinedRuntimeAttributes>
+                                                            </view>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="trailing" secondItem="Rzm-kl-xIh" secondAttribute="trailing" id="5JX-Tc-uET"/>
+                                                            <constraint firstItem="Rzm-kl-xIh" firstAttribute="top" secondItem="vtj-cr-nci" secondAttribute="top" id="8vj-Ou-yjM"/>
+                                                            <constraint firstItem="Rzm-kl-xIh" firstAttribute="leading" secondItem="vtj-cr-nci" secondAttribute="leading" id="aqa-pm-7Bp"/>
+                                                            <constraint firstAttribute="bottom" secondItem="Rzm-kl-xIh" secondAttribute="bottom" id="n7v-1r-qPd"/>
+                                                        </constraints>
+                                                    </collectionViewCellContentView>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <connections>
+                                                        <outlet property="posterV" destination="Rzm-kl-xIh" id="PgN-PC-rSM"/>
+                                                    </connections>
+                                                </collectionViewCell>
+                                            </cells>
+                                        </collectionView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="pU8-vf-ZlU" firstAttribute="leading" secondItem="WR4-d0-ebf" secondAttribute="leading" id="Hal-Ve-RYd"/>
+                                        <constraint firstAttribute="trailing" secondItem="pU8-vf-ZlU" secondAttribute="trailing" id="Nxt-Gt-f8n"/>
+                                        <constraint firstAttribute="bottom" secondItem="pU8-vf-ZlU" secondAttribute="bottom" id="RSv-gP-Bbt"/>
+                                        <constraint firstItem="pU8-vf-ZlU" firstAttribute="top" secondItem="WR4-d0-ebf" secondAttribute="top" id="ghS-mg-edR"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="collectionView" destination="pU8-vf-ZlU" id="fmV-Cs-xdh"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

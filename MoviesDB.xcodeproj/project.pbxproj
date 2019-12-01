@@ -62,6 +62,7 @@
 		C3FCDA74239400BE00EC716A /* PosterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FCDA73239400BE00EC716A /* PosterView.swift */; };
 		C3FCDA762394011600EC716A /* PosterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3FCDA752394011600EC716A /* PosterView.xib */; };
 		C3FCDA78239406E200EC716A /* NibView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FCDA77239406E200EC716A /* NibView.swift */; };
+		C3FCDA7C23944AD700EC716A /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FCDA7B23944AD700EC716A /* CollectionCell.swift */; };
 		F8ABCC29DE07F8771CCF5055 /* Pods_MoviesDBUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7452F1FB4565CB811AB63EF /* Pods_MoviesDBUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -122,6 +123,7 @@
 		C3FCDA73239400BE00EC716A /* PosterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterView.swift; sourceTree = "<group>"; };
 		C3FCDA752394011600EC716A /* PosterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PosterView.xib; sourceTree = "<group>"; };
 		C3FCDA77239406E200EC716A /* NibView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibView.swift; sourceTree = "<group>"; };
+		C3FCDA7B23944AD700EC716A /* CollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
 		F3A436F0FD41A5A0C466BDA2 /* Pods-MoviesDBTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoviesDBTests.release.xcconfig"; path = "Target Support Files/Pods-MoviesDBTests/Pods-MoviesDBTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -181,6 +183,7 @@
 				C3CE9D55238DC61400220E23 /* MovieCell.swift */,
 				C32DB4CE2390863800DFDCE7 /* MovieStubCell.swift */,
 				C334B81B238FC65A00F2E640 /* SegmentedCell.swift */,
+				C3FCDA7B23944AD700EC716A /* CollectionCell.swift */,
 			);
 			path = Movies;
 			sourceTree = "<group>";
@@ -560,6 +563,7 @@
 				C3570279238C73D1008FC600 /* MoviesState.swift in Sources */,
 				C32DB4CF2390864600DFDCE7 /* MovieStubCell.swift in Sources */,
 				C3570265238C46EB008FC600 /* Movie.swift in Sources */,
+				C3FCDA7C23944AD700EC716A /* CollectionCell.swift in Sources */,
 				C3DFBAFF2378A553003259FF /* CounterState.swift in Sources */,
 				C357026D238C4F80008FC600 /* UnauthorizedAPI.swift in Sources */,
 				C3570275238C7320008FC600 /* State.swift in Sources */,
