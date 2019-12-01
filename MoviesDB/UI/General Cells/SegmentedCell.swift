@@ -1,23 +1,36 @@
 //
-//  MovieCell.swift
+//  SegmentedCell.swift
 //  MoviesDB
 //
-//  Created by Dmitry Kocherovets on 26.11.2019.
+//  Created by Dmitry Kocherovets on 02.12.2019.
 //  Copyright © 2019 Dmitry Kocherovets. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import DeclarativeTVC
 
 class SegmentedCell: UITableViewCell {
 
     @IBOutlet fileprivate var segmentedControl: UISegmentedControl!
     
-    fileprivate var selectCommand: CommandWith<Int>? 
+    fileprivate var selectCommand: CommandWith<Int>?
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
 
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        // Configure the view for the selected state
+    }
+    
+    
     @IBAction fileprivate func valueChanged(_ sender: UISegmentedControl) {
         selectCommand?.perform(with: sender.selectedSegmentIndex)
     }
+
 }
 
 struct SegmentedCellVM: CellModel {

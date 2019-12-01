@@ -2,7 +2,7 @@
 //  CollectionCell.swift
 //  MoviesDB
 //
-//  Created by Dmitry Kocherovets on 01.12.2019.
+//  Created by Dmitry Kocherovets on 02.12.2019.
 //  Copyright © 2019 Dmitry Kocherovets. All rights reserved.
 //
 
@@ -16,9 +16,9 @@ class CollectionCell: UITableViewCell {
 
 struct CollectionCellVM: CellModel {
     
-    let items: [ColorCellVM]
+    let items: [PosterCVCellVM]
     
-    private let collectionDS = CollectionDS()
+    private let collectionDS = CollectionDS(cellType: .xib)
 
     func apply(to cell: CollectionCell) {
 
@@ -30,20 +30,5 @@ extension CollectionCellVM: Equatable {
     
     static func == (lhs: CollectionCellVM, rhs: CollectionCellVM) -> Bool {
         return lhs.items == rhs.items
-    }
-}
-
-class ColorCell: UICollectionViewCell {
-
-    @IBOutlet fileprivate weak var posterV: PosterView!
-}
-
-struct ColorCellVM: CellModel {
-
-    let posterPath: String?
-
-    func apply(to cell: ColorCell) {
-
-        cell.posterV.posterIV?.kf.setImage(with: ImageService.Size.small.url(poster: posterPath))
     }
 }

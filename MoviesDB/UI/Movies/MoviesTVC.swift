@@ -80,6 +80,10 @@ enum MoviesTVCModule {
             )
 
             if box.state.moviesState.selectedCategoryMovies.count > 0 {
+
+                let items = box.state.moviesState.selectedCategoryMovies.map { PosterCVCellVM(posterPath: $0.posterPath) }
+                rows.append(CollectionCellVM(items: items))
+
                 for movie in box.state.moviesState.selectedCategoryMovies {
                     rows.append(
                         MovieCellVM(title: movie.title,

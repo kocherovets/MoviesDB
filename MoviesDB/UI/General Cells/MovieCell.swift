@@ -2,11 +2,11 @@
 //  MovieCell.swift
 //  MoviesDB
 //
-//  Created by Dmitry Kocherovets on 26.11.2019.
+//  Created by Dmitry Kocherovets on 02.12.2019.
 //  Copyright © 2019 Dmitry Kocherovets. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import DeclarativeTVC
 import Kingfisher
 
@@ -17,6 +17,18 @@ class MovieCell: UITableViewCell {
     @IBOutlet fileprivate weak var overviewLabel: UILabel!
     @IBOutlet fileprivate weak var dateLabel: UILabel!
     @IBOutlet fileprivate weak var votePercentageLabel: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        // Configure the view for the selected state
+    }
+    
 }
 
 struct MovieCellVM: CellModel {
