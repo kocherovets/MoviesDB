@@ -14,14 +14,28 @@
                     <view key="view" contentMode="scaleToFill" id="lP1-tJ-Dzm">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Slt-cf-vkf">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <connections>
+                                    <segue destination="7GC-nM-Gdh" kind="embed" id="Wml-l8-aPQ"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Slt-cf-vkf" firstAttribute="top" secondItem="lP1-tJ-Dzm" secondAttribute="top" id="7x0-QP-XvY"/>
+                            <constraint firstItem="Slt-cf-vkf" firstAttribute="trailing" secondItem="5gv-KC-XIc" secondAttribute="trailing" id="95I-nW-Xfd"/>
+                            <constraint firstAttribute="bottom" secondItem="Slt-cf-vkf" secondAttribute="bottom" id="MnF-e4-3NM"/>
+                            <constraint firstItem="Slt-cf-vkf" firstAttribute="leading" secondItem="5gv-KC-XIc" secondAttribute="leading" id="qa8-HG-eMR"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="5gv-KC-XIc"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Favorites" image="heart.circle" catalog="system" id="D2g-19-Gcc"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="plQ-wl-1zd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="268" y="-541"/>
+            <point key="canvasLocation" x="266.66666666666669" y="-541.07142857142856"/>
         </scene>
         <!--Movies-->
         <scene sceneID="rRH-8c-N7x">
@@ -84,4 +98,7 @@
         <image name="film" catalog="system" width="64" height="46"/>
         <image name="heart.circle" catalog="system" width="64" height="60"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Wml-l8-aPQ"/>
+    </inferredMetricsTieBreakers>
 </document>

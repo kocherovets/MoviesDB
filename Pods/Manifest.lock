@@ -16,8 +16,8 @@ PODS:
   - Moya/Core (13.0.1):
     - Alamofire (~> 4.1)
     - Result (~> 4.1)
-  - RedSwift (1.0.4)
-  - ReduxVM (1.0.3):
+  - RedSwift (1.0.5)
+  - ReduxVM (1.0.4):
     - DeclarativeTVC
     - RedSwift
   - Result (4.1.0)
@@ -44,7 +44,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   ReduxVM:
-    :commit: c6f8b37f58d3897ed0d68d0a9d0af78302a063ea
+    :commit: 9f338d9e4729d0ac352dc67d08d051d0c8ce850a
     :git: https://github.com/kocherovets/ReduxVM.git
 
 SPEC CHECKSUMS:
@@ -53,8 +53,8 @@ SPEC CHECKSUMS:
   DifferenceKit: 5018791b6c1fc839921a3c171a0a539ace6ea60c
   Kingfisher: 4569606189149e19c7d9439f47e885d0679b7a90
   Moya: f4a4b80ff2f8a4ffc208dfb31cd91636622fee6e
-  RedSwift: 545536d7ff140410fafa0f91f896b76a1e99d883
-  ReduxVM: 89c89cd5c51c84f1efc410a64337f73870b48935
+  RedSwift: aa9bc5c23c38c752d01f92a33eb3d28c3bfff3cd
+  ReduxVM: 9e8492ff62f55f02677423b71225c3d45eebe9bf
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
 
 PODFILE CHECKSUM: 3d2b6877761e753e30c9b41f012f36c83b120d7b

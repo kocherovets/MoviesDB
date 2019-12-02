@@ -15,10 +15,16 @@ let apiKey = "5e0e50f2221df20ff3f08d3cba8b2b4c"
 
 enum UnauthorizedAPI: API {
 
-    case nowPlaying
-    case upcoming
-    case trending
-    case popular
+    case popular(page: Int), topRated, upcoming(page: Int), nowPlaying(page: Int), trending(page: Int)
+    case movieDetail(movie: Int), recommended(movie: Int), similar(movie: Int)
+    case credits(movie: Int), review(movie: Int)
+    case searchMovie, searchKeyword, searchPerson
+    case popularPersons
+    case personDetail(person: Int)
+    case personMovieCredits(person: Int)
+    case personImages(person: Int)
+    case genres
+    case discover
 }
 
 extension UnauthorizedAPI {
@@ -33,22 +39,59 @@ extension UnauthorizedAPI {
 extension UnauthorizedAPI: TargetType {
     var baseURL: URL {
 
-        var path = "https://api.themoviedb.org/3"
-        switch self {
-        case .nowPlaying:
-            path += "/movie/now_playing"
-        case .upcoming:
-            path += "/movie/upcoming"
-        case .trending:
-            path += "/movie/top_rated"
-        case .popular:
-            path += "/movie/popular"
-        }
-
-        var urlComponents = URLComponents(string: path)!
-        urlComponents.queryItems = [
-            URLQueryItem(name: "api_key", value: apiKey),
+        var queryItems = [
+            URLQueryItem(name: "api_key", value: apiKey)
         ]
+        
+        var path = "https://api.themoviedb.org/3/"
+        switch self {
+        case .popular(let page):
+            path += "movie/popular"
+            queryItems.append(URLQueryItem(name: "page", value: String(page)))
+        case .popularPersons:
+            path += "person/popular"
+        case .topRated:
+            path += "movie/top_rated"
+        case .upcoming(let page):
+            path += "movie/upcoming"
+            queryItems.append(URLQueryItem(name: "page", value: String(page)))
+        case .nowPlaying(let page):
+            path += "movie/now_playing"
+            queryItems.append(URLQueryItem(name: "page", value: String(page)))
+        case .trending(let page):
+            path += "trending/movie/day"
+            queryItems.append(URLQueryItem(name: "page", value: String(page)))
+        case let .movieDetail(movie):
+            path += "movie/\(String(movie))"
+        case let .personDetail(person):
+            path += "person/\(String(person))"
+        case let .credits(movie):
+            path += "movie/\(String(movie))/credits"
+        case let .review(movie):
+            path += "movie/\(String(movie))/reviews"
+        case let .recommended(movie):
+            path += "movie/\(String(movie))/recommendations"
+        case let .similar(movie):
+            path += "movie/\(String(movie))/similar"
+        case let .personMovieCredits(person):
+            path += "person/\(person)/movie_credits"
+        case let .personImages(person):
+            path += "person/\(person)/images"
+        case .searchMovie:
+            path += "search/movie"
+        case .searchKeyword:
+            path += "search/keyword"
+        case .searchPerson:
+            path += "search/person"
+        case .genres:
+            path += "genre/movie/list"
+        case .discover:
+            path += "discover/movie"
+        }
+        
+        var urlComponents = URLComponents(string: path)!
+        urlComponents.queryItems = queryItems
+        
         return urlComponents.url!
     }
     var path: String {
@@ -58,16 +101,7 @@ extension UnauthorizedAPI: TargetType {
         return .get
     }
     var task: Task {
-        switch self {
-        case .nowPlaying:
-            return .requestPlain
-        case .upcoming:
-            return .requestPlain
-        case .trending:
-            return .requestPlain
-        case .popular:
-            return .requestPlain
-        }
+        return .requestPlain
     }
     var validationType: ValidationType {
         switch self {

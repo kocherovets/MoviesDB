@@ -22,8 +22,6 @@
                         <constraints>
                             <constraint firstAttribute="width" priority="999" constant="100" id="2BW-hI-cvA"/>
                             <constraint firstAttribute="height" priority="999" constant="150" id="TWe-hr-Pv9"/>
-                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="k0h-fy-CSA"/>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="150" id="vIv-Jt-ffA"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="shadowed" value="NO"/>

@@ -17,26 +17,25 @@ enum MoviesTVCModule {
 
     class Presenter: PresenterBase<TableProps, State> {
 
-        override func initCommand() -> Command? {
+        override func onInit() {
             switch store.state.moviesState.selectedCategory {
-            case .nowPlaing:
-                if store.state.moviesState.nowPlaingMovies.count == 0 {
-                    return Command { store.dispatch(MoviesState.LoadNowPlayingMoviesSE()) }
+            case .nowPlaying:
+                if store.state.moviesState.nowPlayingMovies.count == 0 {
+                    store.dispatch(MoviesState.LoadNowPlayingMoviesSE())
                 }
             case .upcoming:
                 if store.state.moviesState.upcomingMovies.count == 0 {
-                    return Command { store.dispatch(MoviesState.LoadUpcomingMoviesSE()) }
+                    store.dispatch(MoviesState.LoadUpcomingMoviesSE())
                 }
             case .trending:
                 if store.state.moviesState.trendingMovies.count == 0 {
-                    return Command { store.dispatch(MoviesState.LoadTrendingMoviesSE()) }
+                    store.dispatch(MoviesState.LoadTrendingMoviesSE())
                 }
             case .popular:
                 if store.state.moviesState.popularMovies.count == 0 {
-                    return Command { store.dispatch(MoviesState.LoadPopularMoviesSE()) }
+                    store.dispatch(MoviesState.LoadPopularMoviesSE())
                 }
             }
-            return nil
         }
 
         override func reaction(for box: StateBox<State>) -> ReactionToState {
@@ -48,7 +47,7 @@ enum MoviesTVCModule {
             return .props
         }
 
-        override func props(for box: StateBox<State>) -> TableProps? {
+        override func propsWithDelay(for box: StateBox<State>) -> PropsWithDelay? {
 
             var rows = [CellAnyModel]()
 
@@ -59,8 +58,8 @@ enum MoviesTVCModule {
                         let selectedCategory = MoviesState.Category(rawValue: value)!
                         store.dispatch(MoviesState.ChangeSelectedCategoryAction(selectedCategory: selectedCategory))
                         switch selectedCategory {
-                        case .nowPlaing:
-                            if box.state.moviesState.nowPlaingMovies.count == 0 {
+                        case .nowPlaying:
+                            if box.state.moviesState.nowPlayingMovies.count == 0 {
                                 store.dispatch(MoviesState.LoadNowPlayingMoviesSE())
                             }
                         case .upcoming:
@@ -81,9 +80,6 @@ enum MoviesTVCModule {
 
             if box.state.moviesState.selectedCategoryMovies.count > 0 {
 
-                let items = box.state.moviesState.selectedCategoryMovies.map { PosterCVCellVM(posterPath: $0.posterPath) }
-                rows.append(CollectionCellVM(items: items))
-
                 for movie in box.state.moviesState.selectedCategoryMovies {
                     rows.append(
                         MovieCellVM(title: movie.title,
@@ -100,7 +96,10 @@ enum MoviesTVCModule {
                     )
                 }
             }
-            return TableProps(tableModel: TableModel(rows: rows))
+            return PropsWithDelay(
+                props: TableProps(tableModel: TableModel(rows: rows)),
+                delay: box.isNew(keyPath: \.moviesState.selectedCategory) ? 0.3 : 0
+            )
         }
     }
 }
@@ -111,9 +110,7 @@ class MoviesTVC: TVC<TableProps, MoviesTVCModule.Presenter> {
 
         if let props = props {
 //            set(model: props.tableModel, animations: DeclarativeTVC.fadeAnimations)
-            delay(0.3) {
-                self.set(model: props.tableModel, animations: nil)
-            }
+            self.set(model: props.tableModel, animations: nil)
         }
     }
 

@@ -27,6 +27,7 @@ struct PosterCVCellVM: CellModel {
 
     func apply(to cell: PosterCVCell) {
 
-        cell.posterV.posterIV?.kf.setImage(with: ImageService.Size.small.url(poster: posterPath))
+        cell.posterV.posterIV?.kf.setImage(with: ImageService.Size.small.url(poster: posterPath),
+                                           placeholder: UIImage(named: "posterStub"))
     }
 }

@@ -17,7 +17,7 @@ class MovieCell: UITableViewCell {
     @IBOutlet fileprivate weak var overviewLabel: UILabel!
     @IBOutlet fileprivate weak var dateLabel: UILabel!
     @IBOutlet fileprivate weak var votePercentageLabel: UILabel!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -28,7 +28,7 @@ class MovieCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
+
 }
 
 struct MovieCellVM: CellModel {
@@ -45,6 +45,17 @@ struct MovieCellVM: CellModel {
         cell.overviewLabel.text = overview
         cell.dateLabel.text = date
         cell.votePercentageLabel.text = "\(votePercentage)%"
-        cell.posterV.posterIV?.kf.setImage(with: ImageService.Size.small.url(poster: posterPath))
+
+        cell.posterV.shadowed = false
+        cell.posterV.conerRadius = 5
+        cell.posterV.posterIV?.kf.setImage(with: ImageService.Size.small.url(poster: posterPath),
+                                           placeholder: UIImage(named: "posterStub")) { result in
+            switch result {
+            case .success:
+                cell.posterV.shadowed = true
+            case .failure:
+                break
+            }
+        }
     }
 }

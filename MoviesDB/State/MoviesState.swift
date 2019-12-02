@@ -13,24 +13,43 @@ import Moya
 struct MoviesState: StateType, Equatable {
 
     enum Category: Int {
-        case nowPlaing = 0
+        case nowPlaying = 0
         case upcoming = 1
         case trending = 2
         case popular = 3
     }
-    var selectedCategory = Category.nowPlaing
+    var selectedCategory = Category.nowPlaying
 
-    var nowPlaingMovies = [ServerModels.Movie]()
+    enum ViewMode {
+        case general
+        case allCategories
+    }
+    var viewMode = ViewMode.general
+
+    var isNowPlayingLoading = false
+    var nowPlayingPage: Int = 0
+    var nowPlayingMovies = [ServerModels.Movie]()
+
+    var isUpcomingLoading = false
+    var upcomingPage: Int = 0
     var upcomingMovies = [ServerModels.Movie]()
+
+    var isTrendingLoading = false
+    var trendingPage: Int = 0
     var trendingMovies = [ServerModels.Movie]()
+
+    var isPopularLoading = false
+    var popularPage: Int = 0
     var popularMovies = [ServerModels.Movie]()
 
-    var isLoading = false
-    
+    var isLoading: Bool {
+        return isNowPlayingLoading || isUpcomingLoading || isTrendingLoading || isPopularLoading
+    }
+
     var selectedCategoryMovies: [ServerModels.Movie] {
         switch selectedCategory {
-        case .nowPlaing:
-            return nowPlaingMovies
+        case .nowPlaying:
+            return nowPlayingMovies
         case .upcoming:
             return upcomingMovies
         case .trending:
@@ -45,15 +64,37 @@ extension MoviesState {
 
     struct LoadAction: Action {
 
+        let category: Category
+
         func updateState(_ state: inout State) {
-            state.moviesState.isLoading = true
+            switch category {
+            case .nowPlaying:
+                state.moviesState.isNowPlayingLoading = true
+            case .upcoming:
+                state.moviesState.isUpcomingLoading = true
+            case .trending:
+                state.moviesState.isTrendingLoading = true
+            case .popular:
+                state.moviesState.isPopularLoading = true
+            }
         }
     }
 
     struct ErrorLoadingAction: Action {
 
+        let category: Category
+
         func updateState(_ state: inout State) {
-            state.moviesState.isLoading = false
+            switch category {
+            case .nowPlaying:
+                state.moviesState.isNowPlayingLoading = false
+            case .upcoming:
+                state.moviesState.isUpcomingLoading = false
+            case .trending:
+                state.moviesState.isTrendingLoading = false
+            case .popular:
+                state.moviesState.isPopularLoading = false
+            }
         }
     }
 
@@ -67,13 +108,23 @@ extension MoviesState {
         }
     }
 
+    struct ChangeViewModeAction: Action {
+
+        func updateState(_ state: inout State) {
+
+            state.moviesState.viewMode = state.moviesState.viewMode == .general ? .allCategories : .general
+        }
+    }
+
     struct AppendNowPlayingMoviesAction: Action {
 
         var movies: [ServerModels.Movie]
 
         func updateState(_ state: inout State) {
-            state.moviesState.isLoading = false
-            state.moviesState.nowPlaingMovies.append(contentsOf: movies)
+
+            state.moviesState.isNowPlayingLoading = false
+            state.moviesState.nowPlayingPage += 1
+            state.moviesState.nowPlayingMovies.append(contentsOf: movies)
         }
     }
 
@@ -81,14 +132,19 @@ extension MoviesState {
 
         func sideEffect(state: State, trunk: Trunk, dependencies: DependencyContainer) {
 
-            trunk.dispatch(LoadAction())
+            guard !state.moviesState.isNowPlayingLoading else { return }
 
-            _ = UnauthorizedAPI.request(target: UnauthorizedAPI.nowPlaying) { (result: Result<ServerModels.NowPlaying, Error>) in
+            trunk.dispatch(LoadAction(category: .nowPlaying))
+
+            _ = dependencies.api.request(target: UnauthorizedAPI.nowPlaying(page: state.moviesState.nowPlayingPage + 1))
+            {
+                (result: Result<ServerModels.NowPlaying, Error>) in
+
                 switch result {
                 case .success(let data):
                     trunk.dispatch(AppendNowPlayingMoviesAction(movies: data.results))
                 case .failure:
-                    trunk.dispatch(ErrorLoadingAction())
+                    trunk.dispatch(ErrorLoadingAction(category: .nowPlaying))
                 }
             }
         }
@@ -99,7 +155,9 @@ extension MoviesState {
         var movies: [ServerModels.Movie]
 
         func updateState(_ state: inout State) {
-            state.moviesState.isLoading = false
+
+            state.moviesState.isUpcomingLoading = false
+            state.moviesState.upcomingPage += 1
             state.moviesState.upcomingMovies.append(contentsOf: movies)
         }
     }
@@ -108,14 +166,18 @@ extension MoviesState {
 
         func sideEffect(state: State, trunk: Trunk, dependencies: DependencyContainer) {
 
-            trunk.dispatch(LoadAction())
+            guard !state.moviesState.isUpcomingLoading else { return }
 
-            _ = UnauthorizedAPI.request(target: UnauthorizedAPI.upcoming) { (result: Result<ServerModels.Upcoming, Error>) in
+            trunk.dispatch(LoadAction(category: .upcoming))
+
+            _ = dependencies.api.request(target: UnauthorizedAPI.upcoming(page: state.moviesState.upcomingPage + 1))
+            {
+                (result: Result<ServerModels.Upcoming, Error>) in
                 switch result {
                 case .success(let data):
                     trunk.dispatch(AppendUpcomingMoviesAction(movies: data.results))
                 case .failure:
-                    trunk.dispatch(ErrorLoadingAction())
+                    trunk.dispatch(ErrorLoadingAction(category: .upcoming))
                 }
             }
         }
@@ -126,7 +188,9 @@ extension MoviesState {
         var movies: [ServerModels.Movie]
 
         func updateState(_ state: inout State) {
-            state.moviesState.isLoading = false
+
+            state.moviesState.isTrendingLoading = false
+            state.moviesState.trendingPage += 1
             state.moviesState.trendingMovies.append(contentsOf: movies)
         }
     }
@@ -135,14 +199,18 @@ extension MoviesState {
 
         func sideEffect(state: State, trunk: Trunk, dependencies: DependencyContainer) {
 
-            trunk.dispatch(LoadAction())
+            guard !state.moviesState.isTrendingLoading else { return }
 
-            _ = UnauthorizedAPI.request(target: UnauthorizedAPI.trending) { (result: Result<ServerModels.Trending, Error>) in
+            trunk.dispatch(LoadAction(category: .trending))
+
+            _ = dependencies.api.request(target: UnauthorizedAPI.trending(page: state.moviesState.trendingPage + 1))
+            {
+                (result: Result<ServerModels.Trending, Error>) in
                 switch result {
                 case .success(let data):
                     trunk.dispatch(AppendTrendingMoviesAction(movies: data.results))
                 case .failure:
-                    trunk.dispatch(ErrorLoadingAction())
+                    trunk.dispatch(ErrorLoadingAction(category: .trending))
                 }
             }
         }
@@ -150,28 +218,34 @@ extension MoviesState {
 
     struct AppendPopularMoviesAction: Action {
 
-          var movies: [ServerModels.Movie]
+        var movies: [ServerModels.Movie]
 
-          func updateState(_ state: inout State) {
-              state.moviesState.isLoading = false
-              state.moviesState.popularMovies.append(contentsOf: movies)
-          }
-      }
+        func updateState(_ state: inout State) {
 
-      struct LoadPopularMoviesSE: SideEffect {
+            state.moviesState.isPopularLoading = false
+            state.moviesState.popularPage += 1
+            state.moviesState.popularMovies.append(contentsOf: movies)
+        }
+    }
 
-          func sideEffect(state: State, trunk: Trunk, dependencies: DependencyContainer) {
+    struct LoadPopularMoviesSE: SideEffect {
 
-              trunk.dispatch(LoadAction())
+        func sideEffect(state: State, trunk: Trunk, dependencies: DependencyContainer) {
 
-              _ = UnauthorizedAPI.request(target: UnauthorizedAPI.trending) { (result: Result<ServerModels.Popular, Error>) in
-                  switch result {
-                  case .success(let data):
-                      trunk.dispatch(AppendPopularMoviesAction(movies: data.results))
-                  case .failure:
-                      trunk.dispatch(ErrorLoadingAction())
-                  }
-              }
-          }
-      }
+            guard !state.moviesState.isPopularLoading else { return }
+
+            trunk.dispatch(LoadAction(category: .popular))
+
+            _ = dependencies.api.request(target: UnauthorizedAPI.popular(page: state.moviesState.popularPage + 1))
+            {
+                (result: Result<ServerModels.Popular, Error>) in
+                switch result {
+                case .success(let data):
+                    trunk.dispatch(AppendPopularMoviesAction(movies: data.results))
+                case .failure:
+                    trunk.dispatch(ErrorLoadingAction(category: .popular))
+                }
+            }
+        }
+    }
 }

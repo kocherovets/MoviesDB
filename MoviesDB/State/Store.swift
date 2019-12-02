@@ -13,17 +13,8 @@ func delay(_ delay: Double, closure: @escaping () -> ()) {
     DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
 }
 
-class APIManager {
-
-    func test(_ callback: @escaping (Int) -> Void) {
-        delay(5) {
-            callback(150)
-        }
-    }
-}
-
 class DependencyContainer: SideEffectDependencyContainer {
-    let api = APIManager()
+    let api = UnauthorizedAPI.self
 }
 
 var store = Store<State>(state: State(),
