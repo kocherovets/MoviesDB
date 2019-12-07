@@ -17,6 +17,10 @@ enum MoviesTVCModule {
 
     class Presenter: PresenterBase<TableProps, State> {
 
+        override var store: Store<State>! {
+            return mainStore
+        }
+
         override func onInit() {
             switch store.state.moviesState.selectedCategory {
             case .nowPlaying:
@@ -47,7 +51,7 @@ enum MoviesTVCModule {
             return .props
         }
 
-        override func propsWithDelay(for box: StateBox<State>) -> PropsWithDelay? {
+        override func props(for box: StateBox<State>) -> TableProps? {
 
             var rows = [CellAnyModel]()
 
@@ -56,23 +60,23 @@ enum MoviesTVCModule {
                     selectedIndex: box.state.moviesState.selectedCategory.rawValue,
                     selectCommand: CommandWith<Int> { value in
                         let selectedCategory = MoviesState.Category(rawValue: value)!
-                        store.dispatch(MoviesState.ChangeSelectedCategoryAction(selectedCategory: selectedCategory))
+                        self.store.dispatch(MoviesState.ChangeSelectedCategoryAction(selectedCategory: selectedCategory))
                         switch selectedCategory {
                         case .nowPlaying:
                             if box.state.moviesState.nowPlayingMovies.count == 0 {
-                                store.dispatch(MoviesState.LoadNowPlayingMoviesSE())
+                                self.store.dispatch(MoviesState.LoadNowPlayingMoviesSE())
                             }
                         case .upcoming:
                             if box.state.moviesState.upcomingMovies.count == 0 {
-                                store.dispatch(MoviesState.LoadUpcomingMoviesSE())
+                                self.store.dispatch(MoviesState.LoadUpcomingMoviesSE())
                             }
                         case .trending:
                             if box.state.moviesState.trendingMovies.count == 0 {
-                                store.dispatch(MoviesState.LoadTrendingMoviesSE())
+                                self.store.dispatch(MoviesState.LoadTrendingMoviesSE())
                             }
                         case .popular:
                             if box.state.moviesState.popularMovies.count == 0 {
-                                store.dispatch(MoviesState.LoadPopularMoviesSE())
+                                self.store.dispatch(MoviesState.LoadPopularMoviesSE())
                             }
                         }
                     })
@@ -96,22 +100,11 @@ enum MoviesTVCModule {
                     )
                 }
             }
-            return PropsWithDelay(
-                props: TableProps(tableModel: TableModel(rows: rows)),
-                delay: box.isNew(keyPath: \.moviesState.selectedCategory) ? 0.3 : 0
-            )
+            return TableProps(tableModel: TableModel(rows: rows))
         }
     }
 }
 
 class MoviesTVC: TVC<TableProps, MoviesTVCModule.Presenter> {
-
-    override func render() {
-
-        if let props = props {
-//            set(model: props.tableModel, animations: DeclarativeTVC.fadeAnimations)
-            self.set(model: props.tableModel, animations: nil)
-        }
-    }
 
 }

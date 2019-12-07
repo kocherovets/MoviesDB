@@ -30,7 +30,7 @@ enum UnauthorizedAPI: API {
 extension UnauthorizedAPI {
 
     static var api = MoyaProvider<UnauthorizedAPI>(
-        callbackQueue: StoreQueue,
+        callbackQueue: storeQueue,
         plugins: [
             NetworkLoggerPlugin(verbose: true, responseDataFormatter: JSONResponseDataFormatter)
         ])

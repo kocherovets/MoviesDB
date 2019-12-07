@@ -17,8 +17,10 @@ class DependencyContainer: SideEffectDependencyContainer {
     let api = UnauthorizedAPI.self
 }
 
-var store = Store<State>(state: State(),
-                         queueTitle: "queueTitle",
-                         sideEffectDependencyContainer: DependencyContainer(),
-                         middleware: [])
+let storeQueue = DispatchQueue(label: "queueTitle", qos: .userInteractive)
+
+var mainStore = Store<State>(state: State(),
+                             queue: storeQueue,
+                             sideEffectDependencyContainer: DependencyContainer(),
+                             middleware: [])
 

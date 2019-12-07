@@ -36,7 +36,7 @@ open class Command: Codable {
     }
 
     static let nop = Command { }
-    
+
     /// Support for Xcode quick look feature.
     @objc
     open func debugQuickLookObject() -> AnyObject? {

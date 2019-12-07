@@ -17,6 +17,10 @@ enum Movies2TVCModule {
 
     class Presenter: PresenterBase<TableProps, State> {
 
+        override var store: Store<State>! {
+            return mainStore
+        }
+
         override func onInit() {
             if store.state.moviesState.nowPlayingMovies.count == 0 {
                 store.dispatch(MoviesState.LoadNowPlayingMoviesSE())
@@ -37,7 +41,7 @@ enum Movies2TVCModule {
             return .props
         }
 
-        override func propsWithDelay(for box: StateBox<State>) -> PropsWithDelay? {
+        override func props(for box: StateBox<State>) -> TableProps? {
 
             var rows = [CellAnyModel]()
 
@@ -74,21 +78,11 @@ enum Movies2TVCModule {
             }
             rows.append(CollectionCellVM(items: items))
 
-            return PropsWithDelay(
-                props: TableProps(tableModel: TableModel(rows: rows))
-            )
+            return TableProps(tableModel: TableModel(rows: rows))
         }
     }
 }
 
 class Movies2TVC: TVC<TableProps, Movies2TVCModule.Presenter> {
-
-    override func render() {
-
-        if let props = props {
-//            set(model: props.tableModel, animations: DeclarativeTVC.fadeAnimations)
-            self.set(model: props.tableModel, animations: nil)
-        }
-    }
 
 }

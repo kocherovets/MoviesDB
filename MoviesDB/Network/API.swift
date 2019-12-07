@@ -17,7 +17,7 @@ protocol API: TargetType {
 
     static var api: MoyaProvider<Self> { get }
 
-    func url(_ route: TargetType) -> String
+//    func url(_ route: TargetType) -> String
     static func JSONResponseDataFormatter(_ data: Data) -> Data
 }
 
@@ -27,9 +27,9 @@ extension API {
         return false
     }
 
-    func url(_ route: TargetType) -> String {
-        return route.baseURL.appendingPathComponent(route.path).absoluteString
-    }
+//    func url(_ route: TargetType) -> String {
+//        return route.baseURL.appendingPathComponent(route.path).absoluteString
+//    }
 
     static func JSONResponseDataFormatter(_ data: Data) -> Data {
         do {
@@ -42,7 +42,7 @@ extension API {
     }
 
     static func request<T: Decodable>(target: Self,
-                                      callbackQueue: DispatchQueue? = StoreQueue,
+                                      callbackQueue: DispatchQueue? = storeQueue,
                                       completion: @escaping (Result<T, Error>) -> (Void)) -> Cancellable {
 
         return Self.api.request(target, callbackQueue: callbackQueue) { result in

@@ -13,20 +13,19 @@ import RedSwift
 public protocol Properties {
 
 }
-
-public struct PropsWithDelay {
-    public let props: Properties?
-    public let delay: Double?
-    
-    public init(props: Properties?, delay: TimeInterval? = 0) {
-        self.props = props
-        self.delay = delay
-    }
-}
+//public struct PropsWithDelay {
+//    public let props: Properties?
+//    public let delay: Double?
+//
+//    public init(props: Properties?, delay: TimeInterval? = 0) {
+//        self.props = props
+//        self.delay = delay
+//    }
+//}
 
 public protocol PropsReceiver: class {
 
-    func set(propsWithDelay: PropsWithDelay?)
+    func set(props: Properties?)
 }
 
 public enum ReactionToState {
@@ -48,6 +47,10 @@ public protocol PresenterProtocol {
 open class PresenterBase<Props: Properties, State: RootStateType>: StoreSubscriber, PresenterProtocol {
     
     private weak var propsReceiver: PropsReceiver?
+    
+    open var store: Store<State>! {
+        nil
+    }
 
     open func onInit() {  }
     open func onDeinit()  {  }
@@ -56,8 +59,8 @@ open class PresenterBase<Props: Properties, State: RootStateType>: StoreSubscrib
 
         self.propsReceiver = propsReceiver
 
-        stateChanged(box: StateBox<State>(state: StoreDS.store.getState(),
-                                          oldState: StoreDS.store.getState()))
+        stateChanged(box: StateBox<State>(state: store.state,
+                                          oldState: store.state))
     }
 
     deinit {
@@ -66,21 +69,21 @@ open class PresenterBase<Props: Properties, State: RootStateType>: StoreSubscrib
 
     public final func subscribe() {
 
-        StoreQueue.async { [weak self] in
+        store.queue.async { [weak self] in
 
             guard let self = self else { return }
 
-            StoreDS.store.subscribe(self)
+            self.store.subscribe(self)
         }
     }
 
     public final func unsubscribe() {
 
-        StoreQueue.async { [weak self] in
+        store.queue.async { [weak self] in
 
             guard let self = self else { return }
 
-            StoreDS.store.unsubscribe(self)
+            self.store.unsubscribe(self)
         }
     }
 
@@ -88,7 +91,7 @@ open class PresenterBase<Props: Properties, State: RootStateType>: StoreSubscrib
 
         switch reaction(for: box) {
         case .router(let command):
-            StoreQueue.async {
+            store.queue.async {
                 DispatchQueue.main.async {
                     command.perform()
                 }
@@ -96,7 +99,7 @@ open class PresenterBase<Props: Properties, State: RootStateType>: StoreSubscrib
         case .command(let command):
             command.perform()
         case .props:
-            propsReceiver?.set(propsWithDelay: propsWithDelay(for: box))
+            propsReceiver?.set(props: props(for: box))
         case .none:
             return
         }
@@ -107,7 +110,7 @@ open class PresenterBase<Props: Properties, State: RootStateType>: StoreSubscrib
         return .props
     }
     
-    open func propsWithDelay(for box: StateBox<State>) -> PropsWithDelay? {
+    open func props(for box: StateBox<State>) -> Props? {
 
         return nil
     }

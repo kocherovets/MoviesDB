@@ -15,19 +15,25 @@ enum MoviesVCModule {
 
     struct Props: Properties, Equatable {
         let title: String
+        let rightBarButtonImageName: String
         let showsGeneralView: Bool
         let changeViewModeCommand: Command
     }
 
     class Presenter: PresenterBase<Props, State> {
 
+        override var store: Store<State>! {
+            return mainStore
+        }
+        
         override func reaction(for box: StateBox<State>) -> ReactionToState {
             return .props
         }
 
-        override func propsWithDelay(for box: StateBox<State>) -> PropsWithDelay? {
+        override func props(for box: StateBox<State>) -> Props? {
 
             let title: String
+            let rightBarButtonImageName: String
             if box.state.moviesState.viewMode == .general {
                 switch box.state.moviesState.selectedCategory {
                 case .nowPlaying:
@@ -39,16 +45,17 @@ enum MoviesVCModule {
                 case .popular:
                     title = "Popular"
                 }
+                rightBarButtonImageName = "rectangle.3.offgrid.fill"
             } else {
                 title = "Movies"
+                rightBarButtonImageName = "rectangle.grid.1x2"
             }
 
-            return PropsWithDelay(props:
-                Props(
-                    title: title,
-                    showsGeneralView: box.state.moviesState.viewMode == .general,
-                    changeViewModeCommand: Command { store.dispatch(MoviesState.ChangeViewModeAction()) }
-                )
+            return Props(
+                title: title,
+                rightBarButtonImageName: rightBarButtonImageName,
+                showsGeneralView: box.state.moviesState.viewMode == .general,
+                changeViewModeCommand: Command { self.store.dispatch(MoviesState.ChangeViewModeAction()) }
             )
         }
     }
@@ -74,6 +81,11 @@ class MoviesVC: VC<MoviesVCModule.Props, MoviesVCModule.Presenter> {
         guard let props = props else { return }
 
         navigationItem.title = props.title
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: props.rightBarButtonImageName),
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(changeMode))
 
         if props.showsGeneralView && containerView1.isHidden {
             setupTables(showsGeneralView: true)

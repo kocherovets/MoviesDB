@@ -22,7 +22,7 @@ open class CollectionDS: NSObject, UICollectionViewDataSource, UICollectionViewD
         case storyboard
         case xib
     }
-    public let cellType: CellType
+    let cellType: CellType
 
     public init(cellType: CellType) {
         self.cellType = cellType
