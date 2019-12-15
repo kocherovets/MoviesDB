@@ -7,11 +7,21 @@
 //
 
 import UIKit
-import ReduxVM
-import DeclarativeTVC
-import RedSwift
 
 enum MoviesVCModule {
+
+    class DI: DIPart {
+        static func load(container: DIContainer) {
+           
+            container.register(MoviesVC.self)
+                .injection(\MoviesVC.presenter) { $0 as Presenter }
+                .lifetime(.objectGraph)
+
+            container.register (Presenter.init)
+                .injection(cycle: true, \Presenter.propsReceiver)
+                .lifetime(.objectGraph)
+        }
+    }
 
     struct Props: Properties, Equatable {
         let title: String
@@ -20,17 +30,13 @@ enum MoviesVCModule {
         let changeViewModeCommand: Command
     }
 
-    class Presenter: PresenterBase<Props, State> {
+    class Presenter: PresenterBase<State, Props, MoviesVC> {
 
-        override var store: Store<State>! {
-            return mainStore
-        }
-        
         override func reaction(for box: StateBox<State>) -> ReactionToState {
             return .props
         }
 
-        override func props(for box: StateBox<State>) -> Props? {
+        override func props(for box: StateBox<State>, trunk: Trunk) -> Props? {
 
             let title: String
             let rightBarButtonImageName: String
@@ -55,13 +61,13 @@ enum MoviesVCModule {
                 title: title,
                 rightBarButtonImageName: rightBarButtonImageName,
                 showsGeneralView: box.state.moviesState.viewMode == .general,
-                changeViewModeCommand: Command { self.store.dispatch(MoviesState.ChangeViewModeAction()) }
+                changeViewModeCommand: Command { trunk.dispatch(MoviesState.ChangeViewModeAction()) }
             )
         }
     }
 }
 
-class MoviesVC: VC<MoviesVCModule.Props, MoviesVCModule.Presenter> {
+class MoviesVC: VC<MoviesVCModule.Props> {
 
     @IBOutlet fileprivate weak var containerView1: UIView!
     @IBOutlet fileprivate weak var containerView2: UIView!

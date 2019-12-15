@@ -7,10 +7,8 @@
 //
 
 import UIKit
-import DeclarativeTVC
-import Kingfisher
 
-class MovieStubCell: UITableViewCell {
+class MovieStubCell: XibTableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()

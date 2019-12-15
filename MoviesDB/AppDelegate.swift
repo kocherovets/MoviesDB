@@ -8,15 +8,60 @@
 
 import UIKit
 import CoreData
-import ReduxVM
-import RedSwift
+
+@_exported import ReduxVM
+@_exported import RedSwift
+@_exported import DeclarativeTVC
+@_exported import DITranquillity
+@_exported import Kingfisher
+
+public class AppFramework: DIFramework {
+    public static func load(container: DIContainer) {
+
+        container.register (State.init)
+            .lifetime(.single)
+
+        container.register { DispatchQueue(label: "queueTitle", qos: .userInteractive) }
+            .as(DispatchQueue.self, name: "storeQueue")
+            .lifetime(.single)
+
+        container.register (DependencyContainer.init)
+            .lifetime(.single)
+
+        container.register {
+            Store<State>(state: $0,
+                         queue: $1,
+                         sideEffectDependencyContainer: container.resolve() as DependencyContainer,
+                         middleware: []) }
+            .lifetime(.single)
+
+        container.registerStoryboard(name: "Main").lifetime(.single)
+        container.registerStoryboard(name: "Movies").lifetime(.single)
+        container.registerStoryboard(name: "Movie").lifetime(.single)
+
+        container.append(part: MoviesVCModule.DI.self)
+        container.append(part: MoviesTVCModule.DI.self)
+        container.append(part: Movies2TVCModule.DI.self)
+        container.append(part: MovieVCModule.DI.self)
+    }
+}
+
+let container = DIContainer()
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
+        DISetting.Log.level = .warning
+        
+        container.append(framework: AppFramework.self)
+
+        if !container.validate() {
+            fatalError()
+        }
+
+        container.initializeSingletonObjects()
 
         return true
     }
@@ -49,7 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                 
+
                 /*
                  Typical reasons for an error here include:
                  * The parent directory does not exist, cannot be created, or disallows writing.

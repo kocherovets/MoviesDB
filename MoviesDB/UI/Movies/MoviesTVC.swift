@@ -6,38 +6,43 @@
 //  Copyright © 2019 Dmitry Kocherovets. All rights reserved.
 //
 
-import Foundation
-
 import UIKit
-import ReduxVM
-import DeclarativeTVC
-import RedSwift
 
 enum MoviesTVCModule {
 
-    class Presenter: PresenterBase<TableProps, State> {
+    class DI: DIPart {
+        static func load(container: DIContainer) {
 
-        override var store: Store<State>! {
-            return mainStore
+            container.register(MoviesTVC.self)
+                .injection(\MoviesTVC.presenter) { $0 as Presenter }
+                .lifetime(.objectGraph)
+
+            container.register (Presenter.init)
+                .injection(cycle: true, \Presenter.propsReceiver)
+                .lifetime(.objectGraph)
         }
+    }
 
-        override func onInit() {
-            switch store.state.moviesState.selectedCategory {
+    class Presenter: PresenterBase<State, TableProps, MoviesTVC> {
+
+        override func onInit(state: State, trunk: Trunk) {
+
+            switch state.moviesState.selectedCategory {
             case .nowPlaying:
-                if store.state.moviesState.nowPlayingMovies.count == 0 {
-                    store.dispatch(MoviesState.LoadNowPlayingMoviesSE())
+                if state.moviesState.nowPlayingMovies.count == 0 {
+                    trunk.dispatch(MoviesState.LoadNowPlayingMoviesSE())
                 }
             case .upcoming:
-                if store.state.moviesState.upcomingMovies.count == 0 {
-                    store.dispatch(MoviesState.LoadUpcomingMoviesSE())
+                if state.moviesState.upcomingMovies.count == 0 {
+                    trunk.dispatch(MoviesState.LoadUpcomingMoviesSE())
                 }
             case .trending:
-                if store.state.moviesState.trendingMovies.count == 0 {
-                    store.dispatch(MoviesState.LoadTrendingMoviesSE())
+                if state.moviesState.trendingMovies.count == 0 {
+                    trunk.dispatch(MoviesState.LoadTrendingMoviesSE())
                 }
             case .popular:
-                if store.state.moviesState.popularMovies.count == 0 {
-                    store.dispatch(MoviesState.LoadPopularMoviesSE())
+                if state.moviesState.popularMovies.count == 0 {
+                    trunk.dispatch(MoviesState.LoadPopularMoviesSE())
                 }
             }
         }
@@ -51,7 +56,7 @@ enum MoviesTVCModule {
             return .props
         }
 
-        override func props(for box: StateBox<State>) -> TableProps? {
+        override func props(for box: StateBox<State>, trunk: Trunk) -> TableProps? {
 
             var rows = [CellAnyModel]()
 
@@ -60,23 +65,23 @@ enum MoviesTVCModule {
                     selectedIndex: box.state.moviesState.selectedCategory.rawValue,
                     selectCommand: CommandWith<Int> { value in
                         let selectedCategory = MoviesState.Category(rawValue: value)!
-                        self.store.dispatch(MoviesState.ChangeSelectedCategoryAction(selectedCategory: selectedCategory))
+                        trunk.dispatch(MoviesState.ChangeSelectedCategoryAction(selectedCategory: selectedCategory))
                         switch selectedCategory {
                         case .nowPlaying:
                             if box.state.moviesState.nowPlayingMovies.count == 0 {
-                                self.store.dispatch(MoviesState.LoadNowPlayingMoviesSE())
+                                trunk.dispatch(MoviesState.LoadNowPlayingMoviesSE())
                             }
                         case .upcoming:
                             if box.state.moviesState.upcomingMovies.count == 0 {
-                                self.store.dispatch(MoviesState.LoadUpcomingMoviesSE())
+                                trunk.dispatch(MoviesState.LoadUpcomingMoviesSE())
                             }
                         case .trending:
                             if box.state.moviesState.trendingMovies.count == 0 {
-                                self.store.dispatch(MoviesState.LoadTrendingMoviesSE())
+                                trunk.dispatch(MoviesState.LoadTrendingMoviesSE())
                             }
                         case .popular:
                             if box.state.moviesState.popularMovies.count == 0 {
-                                self.store.dispatch(MoviesState.LoadPopularMoviesSE())
+                                trunk.dispatch(MoviesState.LoadPopularMoviesSE())
                             }
                         }
                     })
@@ -90,7 +95,11 @@ enum MoviesTVCModule {
                                     overview: movie.overview,
                                     date: movie.releaseDate,
                                     votePercentage: movie.votePercentage,
-                                    posterPath: movie.posterPath)
+                                    posterPath: movie.posterPath,
+                                    selectCommand: Command {
+                                        
+                                        Router.showMovie(movieId: movie.id, title: movie.title)
+                                    })
                     )
                 }
             } else {
@@ -105,6 +114,6 @@ enum MoviesTVCModule {
     }
 }
 
-class MoviesTVC: TVC<TableProps, MoviesTVCModule.Presenter> {
+class MoviesTVC: TVC<TableProps> {
 
 }

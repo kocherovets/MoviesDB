@@ -7,9 +7,8 @@
 //
 
 import UIKit
-import DeclarativeTVC
 
-class SegmentedCell: UITableViewCell {
+class SegmentedCell: XibTableViewCell {
 
     @IBOutlet fileprivate var segmentedControl: UISegmentedControl!
     

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import RedSwift
 import Moya
 
 struct MoviesState: StateType, Equatable {

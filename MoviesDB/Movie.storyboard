@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="hw1-PP-Ucu">
+            <objects>
+                <navigationController storyboardIdentifier="ListNVC" id="YDS-SD-4Lr" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="7Cu-Ye-7B4">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="tyB-14-SsF" kind="relationship" relationship="rootViewController" id="uYd-4Z-4Fy"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1m8-QK-cAL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-681" y="146"/>
+        </scene>
+        <!--Movie title-->
+        <scene sceneID="fUb-zm-DRS">
+            <objects>
+                <viewController storyboardIdentifier="MovieVC" id="tyB-14-SsF" customClass="MovieVC" customModule="MoviesDB" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="qpP-uq-eGC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aN5-Ae-5J8">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="aN5-Ae-5J8" firstAttribute="trailing" secondItem="IUj-3e-ba8" secondAttribute="trailing" id="GFi-1c-nLZ"/>
+                            <constraint firstItem="aN5-Ae-5J8" firstAttribute="top" secondItem="qpP-uq-eGC" secondAttribute="top" id="R0B-Y7-agu"/>
+                            <constraint firstAttribute="bottom" secondItem="aN5-Ae-5J8" secondAttribute="bottom" id="S4v-Kc-AmT"/>
+                            <constraint firstItem="aN5-Ae-5J8" firstAttribute="leading" secondItem="IUj-3e-ba8" secondAttribute="leading" id="l9a-uO-yqy"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="IUj-3e-ba8"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Movie title" largeTitleDisplayMode="never" id="fdy-zK-eqd">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="rectangle.3.offgrid.fill" catalog="system" id="nld-cE-CSl"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="containerView1" destination="aN5-Ae-5J8" id="fx4-MM-izh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="viz-oj-Z5c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="76.811594202898561" y="145.98214285714286"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="rectangle.3.offgrid.fill" catalog="system" width="64" height="40"/>
+    </resources>
+</document>

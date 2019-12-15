@@ -8,6 +8,7 @@ def shared_pods
     pod 'ReduxVM'#, :git => 'https://github.com/kocherovets/ReduxVM.git', :branch => 'master'
     pod 'Moya', '~> 13.0'
     pod 'Kingfisher', '~> 5.0'
+    pod 'DITranquillity'
 end
 
 target "MoviesDB" do

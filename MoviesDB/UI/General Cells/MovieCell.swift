@@ -7,10 +7,8 @@
 //
 
 import UIKit
-import DeclarativeTVC
-import Kingfisher
 
-class MovieCell: UITableViewCell {
+class MovieCell: XibTableViewCell {
 
     @IBOutlet fileprivate weak var posterV: PosterView!
     @IBOutlet fileprivate weak var titleL: UILabel!
@@ -31,13 +29,15 @@ class MovieCell: UITableViewCell {
 
 }
 
-struct MovieCellVM: CellModel {
+struct MovieCellVM: CellModel, SelectableCellModel {
 
     let title: String?
     let overview: String?
     let date: String?
     let votePercentage: Int
     let posterPath: String?
+
+    let selectCommand: Command
 
     func apply(to cell: MovieCell) {
 

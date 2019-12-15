@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import DeclarativeTVC
-import Kingfisher
 
 class PosterCVCell: UICollectionViewCell {
 

@@ -7,9 +7,8 @@
 //
 
 import UIKit
-import DeclarativeTVC
 
-class CollectionCell: UITableViewCell {
+class CollectionCell: XibTableViewCell {
 
     @IBOutlet weak var collectionView: UICollectionView!
 }

@@ -6,33 +6,38 @@
 //  Copyright © 2019 Dmitry Kocherovets. All rights reserved.
 //
 
-import Foundation
-
 import UIKit
-import ReduxVM
-import DeclarativeTVC
-import RedSwift
 
 enum Movies2TVCModule {
 
-    class Presenter: PresenterBase<TableProps, State> {
+    class DI: DIPart {
+        static func load(container: DIContainer) {
 
-        override var store: Store<State>! {
-            return mainStore
+            container.register(Movies2TVC.self)
+                .injection(\Movies2TVC.presenter) { $0 as Presenter }
+                .lifetime(.objectGraph)
+
+            container.register (Presenter.init)
+                .injection(cycle: true, \Presenter.propsReceiver)
+                .lifetime(.objectGraph)
         }
+    }
 
-        override func onInit() {
-            if store.state.moviesState.nowPlayingMovies.count == 0 {
-                store.dispatch(MoviesState.LoadNowPlayingMoviesSE())
+    class Presenter: PresenterBase<State, TableProps, Movies2TVC> {
+
+
+        override func onInit(state: State, trunk: Trunk) {
+            if state.moviesState.nowPlayingMovies.count == 0 {
+                trunk.dispatch(MoviesState.LoadNowPlayingMoviesSE())
             }
-            if store.state.moviesState.upcomingMovies.count == 0 {
-                store.dispatch(MoviesState.LoadUpcomingMoviesSE())
+            if state.moviesState.upcomingMovies.count == 0 {
+                trunk.dispatch(MoviesState.LoadUpcomingMoviesSE())
             }
-            if store.state.moviesState.trendingMovies.count == 0 {
-                store.dispatch(MoviesState.LoadTrendingMoviesSE())
+            if state.moviesState.trendingMovies.count == 0 {
+                trunk.dispatch(MoviesState.LoadTrendingMoviesSE())
             }
-            if store.state.moviesState.popularMovies.count == 0 {
-                store.dispatch(MoviesState.LoadPopularMoviesSE())
+            if state.moviesState.popularMovies.count == 0 {
+                trunk.dispatch(MoviesState.LoadPopularMoviesSE())
             }
         }
 
@@ -41,7 +46,7 @@ enum Movies2TVCModule {
             return .props
         }
 
-        override func props(for box: StateBox<State>) -> TableProps? {
+        override func props(for box: StateBox<State>, trunk: Trunk) -> TableProps? {
 
             var rows = [CellAnyModel]()
 
@@ -83,6 +88,6 @@ enum Movies2TVCModule {
     }
 }
 
-class Movies2TVC: TVC<TableProps, Movies2TVCModule.Presenter> {
+class Movies2TVC: TVC<TableProps> {
 
 }

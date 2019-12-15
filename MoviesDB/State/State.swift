@@ -10,6 +10,8 @@ import Foundation
 import RedSwift
 
 struct State: RootStateType, Equatable {
-    
+
     var moviesState = MoviesState()
+    
+    var movieStates = [String: MovieState]()
 }
