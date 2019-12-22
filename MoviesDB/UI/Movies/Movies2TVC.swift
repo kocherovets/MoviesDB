@@ -10,11 +10,13 @@ import UIKit
 
 enum Movies2TVCModule {
 
+    typealias ViewController = Movies2TVC
+
     class DI: DIPart {
         static func load(container: DIContainer) {
 
-            container.register(Movies2TVC.self)
-                .injection(\Movies2TVC.presenter) { $0 as Presenter }
+            container.register(ViewController.self)
+                .injection(\ViewController.presenter) { $0 as Presenter }
                 .lifetime(.objectGraph)
 
             container.register (Presenter.init)
@@ -23,7 +25,7 @@ enum Movies2TVCModule {
         }
     }
 
-    class Presenter: PresenterBase<State, TableProps, Movies2TVC> {
+    class Presenter: PresenterBase<State, TableProps, ViewController> {
 
 
         override func onInit(state: State, trunk: Trunk) {
@@ -88,6 +90,8 @@ enum Movies2TVCModule {
     }
 }
 
-class Movies2TVC: TVC<TableProps> {
+class Movies2TVC: TVC, PropsReceiver {
+
+    typealias Props = TableProps
 
 }

@@ -10,11 +10,13 @@ import UIKit
 
 enum MoviesVCModule {
 
+    typealias ViewController = MoviesVC
+
     class DI: DIPart {
         static func load(container: DIContainer) {
            
-            container.register(MoviesVC.self)
-                .injection(\MoviesVC.presenter) { $0 as Presenter }
+            container.register(ViewController.self)
+                .injection(\ViewController.presenter) { $0 as Presenter }
                 .lifetime(.objectGraph)
 
             container.register (Presenter.init)
@@ -30,7 +32,7 @@ enum MoviesVCModule {
         let changeViewModeCommand: Command
     }
 
-    class Presenter: PresenterBase<State, Props, MoviesVC> {
+    class Presenter: PresenterBase<State, Props, ViewController> {
 
         override func reaction(for box: StateBox<State>) -> ReactionToState {
             return .props
@@ -67,7 +69,9 @@ enum MoviesVCModule {
     }
 }
 
-class MoviesVC: VC<MoviesVCModule.Props> {
+class MoviesVC: VC, PropsReceiver {
+
+    typealias Props = MoviesVCModule.Props
 
     @IBOutlet fileprivate weak var containerView1: UIView!
     @IBOutlet fileprivate weak var containerView2: UIView!

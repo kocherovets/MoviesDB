@@ -19,7 +19,7 @@ PODS:
     - Alamofire (~> 4.1)
     - Result (~> 4.1)
   - RedSwift (1.0.10)
-  - ReduxVM (1.0.9):
+  - ReduxVM (1.0.11):
     - DeclarativeTVC
     - RedSwift
   - Result (4.1.0)
@@ -29,7 +29,7 @@ DEPENDENCIES:
   - DITranquillity
   - Kingfisher (~> 5.0)
   - Moya (~> 13.0)
-  - ReduxVM (from `https://github.com/kocherovets/ReduxVM.git`, branch `master`)
+  - ReduxVM
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -40,18 +40,9 @@ SPEC REPOS:
     - Kingfisher
     - Moya
     - RedSwift
+    - ReduxVM
     - Result
     - SwiftLazy
-
-EXTERNAL SOURCES:
-  ReduxVM:
-    :branch: master
-    :git: https://github.com/kocherovets/ReduxVM.git
-
-CHECKOUT OPTIONS:
-  ReduxVM:
-    :commit: 58c3bcb6fad20e9b2e34fddb277749c3d6ecac98
-    :git: https://github.com/kocherovets/ReduxVM.git
 
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
@@ -61,10 +52,10 @@ SPEC CHECKSUMS:
   Kingfisher: dc6e0f53bb5b12c3e75bedb0e01bbd7a640eea69
   Moya: f4a4b80ff2f8a4ffc208dfb31cd91636622fee6e
   RedSwift: 36cefc62f429f7ce7db39d485aa75834631c7cb5
-  ReduxVM: 6d95a298987b5e18b33a72ad306d18dc2de570ed
+  ReduxVM: 2253a1b9d5af27729615fa52a05b64b6d95caa63
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
   SwiftLazy: 7ace993ccc9e1773ddf3a7bb309ed0182f469366
 
-PODFILE CHECKSUM: 02c181fecc729ec5a4357f464191b31fda72ea3b
+PODFILE CHECKSUM: a5504d13b4d935cfa905ad72c49c13be952f4a40
 
 COCOAPODS: 1.8.4

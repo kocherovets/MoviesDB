@@ -10,11 +10,13 @@ import UIKit
 
 enum MovieVCModule {
 
+    typealias ViewController = MovieVC
+
     class DI: DIPart {
         static func load(container: DIContainer) {
 
-            container.register(MovieVC.self)
-                .injection(\MovieVC.presenter) { $0 as Presenter }
+            container.register(ViewController.self)
+                .injection(\ViewController.presenter) { $0 as Presenter }
                 .lifetime(.objectGraph)
 
             container.register (Presenter.init)
@@ -26,7 +28,7 @@ enum MovieVCModule {
     struct Props: Properties, Equatable {
     }
 
-    class Presenter: PresenterBase<State, Props, MovieVC> {
+    class Presenter: PresenterBase<State, Props, ViewController> {
 
         private var movieModuleId = UUID().uuidString
         var movieId: Int!
@@ -54,7 +56,9 @@ enum MovieVCModule {
     }
 }
 
-class MovieVC: VC<MovieVCModule.Props> {
+class MovieVC: VC, PropsReceiver {
+    
+    typealias Props = MovieVCModule.Props
 
     var movieTitle: String!
 
