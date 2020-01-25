@@ -36,7 +36,7 @@ enum MovieVCModule {
 
         override func onInit(state: State, trunk: Trunk) {
 
-            trunk.dispatch(MovieState.CreateDetailsSE(uuid: uuid, movieId: movieId))
+            trunk.dispatch(MovieState.CreateDetailsAction(uuid: uuid, movieId: movieId))
         }
 
         override func onDeinit(state: State, trunk: Trunk) {

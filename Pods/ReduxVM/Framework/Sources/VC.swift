@@ -13,6 +13,8 @@ public protocol PropsReceiver: class {
 
     associatedtype Props: Properties, Equatable
 
+    var skipEqualProps: Bool { get }
+
     var generalProps: Properties? { get }
     var props: Props? { get }
 
@@ -30,16 +32,22 @@ extension PropsReceiver {
 
     public var props: Props? { generalProps as? Props }
 
+    public var skipEqualProps: Bool { false }
+
     public func set(newProps: Properties?) {
 
         if let newProps = newProps as? Props {
-            if let currentProps = props, currentProps == newProps {
-                print("skip render \(type(of: self))")
+            if skipEqualProps, let currentProps = props, currentProps == newProps {
+                if ReduxVMSettings.logSkipRenderMessages {
+                    print("skip render \(type(of: self))")
+                }
                 return
             }
         } else {
             if props == nil {
-                print("skip render \(type(of: self))")
+                if ReduxVMSettings.logSkipRenderMessages {
+                    print("skip render \(type(of: self))")
+                }
                 return
             }
         }
@@ -56,7 +64,7 @@ extension PropsReceiver {
 
 open class VC: UIViewController {
 
-    public var presenter: PresenterProtocol!
+    public var presenter: PresenterProtocol?
 
     private var _props: Properties?
     public final var generalProps: Properties? {
@@ -77,7 +85,9 @@ open class VC: UIViewController {
         }
 
         if self.uiIsReady {
-            print("render \(type(of: self))")
+            if ReduxVMSettings.logRenderMessages {
+                print("render \(type(of: self))")
+            }
             self.render()
         }
     }
@@ -87,14 +97,16 @@ open class VC: UIViewController {
 
         uiIsReady = true
 
-        presenter.onInit()
+        presenter?.onInit()
     }
 
     override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        print("subscribe presenter \(type(of: self))")
-        presenter.subscribe()
+        if ReduxVMSettings.logSubscribeMessages {
+            print("subscribe presenter \(type(of: self))")
+        }
+        presenter?.subscribe()
 
         if renderOnViewWillAppear {
             render()
@@ -105,8 +117,10 @@ open class VC: UIViewController {
     override open func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        print("unsubscribe presenter \(type(of: self))")
-        presenter.unsubscribe()
+        if ReduxVMSettings.logSubscribeMessages {
+            print("unsubscribe presenter \(type(of: self))")
+        }
+        presenter?.unsubscribe()
     }
 
     open func render() {

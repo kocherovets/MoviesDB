@@ -32,19 +32,19 @@ enum MoviesTVCModule {
             switch state.moviesState.selectedCategory {
             case .nowPlaying:
                 if state.moviesState.nowPlayingMovies.count == 0 {
-                    trunk.dispatch(MoviesState.LoadNowPlayingMoviesSE())
+                    trunk.dispatch(MoviesState.LoadAction(category: .nowPlaying))
                 }
             case .upcoming:
                 if state.moviesState.upcomingMovies.count == 0 {
-                    trunk.dispatch(MoviesState.LoadUpcomingMoviesSE())
+                    trunk.dispatch(MoviesState.LoadAction(category: .upcoming))
                 }
             case .trending:
                 if state.moviesState.trendingMovies.count == 0 {
-                    trunk.dispatch(MoviesState.LoadTrendingMoviesSE())
+                    trunk.dispatch(MoviesState.LoadAction(category: .trending))
                 }
             case .popular:
                 if state.moviesState.popularMovies.count == 0 {
-                    trunk.dispatch(MoviesState.LoadPopularMoviesSE())
+                    trunk.dispatch(MoviesState.LoadAction(category: .popular))
                 }
             }
         }
@@ -71,19 +71,19 @@ enum MoviesTVCModule {
                         switch selectedCategory {
                         case .nowPlaying:
                             if box.state.moviesState.nowPlayingMovies.count == 0 {
-                                trunk.dispatch(MoviesState.LoadNowPlayingMoviesSE())
+                                trunk.dispatch(MoviesState.LoadAction(category: .nowPlaying))
                             }
                         case .upcoming:
                             if box.state.moviesState.upcomingMovies.count == 0 {
-                                trunk.dispatch(MoviesState.LoadUpcomingMoviesSE())
+                                trunk.dispatch(MoviesState.LoadAction(category: .upcoming))
                             }
                         case .trending:
                             if box.state.moviesState.trendingMovies.count == 0 {
-                                trunk.dispatch(MoviesState.LoadTrendingMoviesSE())
+                                trunk.dispatch(MoviesState.LoadAction(category: .trending))
                             }
                         case .popular:
                             if box.state.moviesState.popularMovies.count == 0 {
-                                trunk.dispatch(MoviesState.LoadPopularMoviesSE())
+                                trunk.dispatch(MoviesState.LoadAction(category: .popular))
                             }
                         }
                     })

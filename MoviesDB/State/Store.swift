@@ -8,8 +8,4 @@
 
 import RedSwift
 
-class DependencyContainer: SideEffectDependencyContainer {
-    let api = UnauthorizedAPI.self
-}
-
 let storeQueue = DispatchQueue(label: "queueTitle", qos: .userInteractive)

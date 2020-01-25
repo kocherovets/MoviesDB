@@ -40,7 +40,7 @@ struct MovieState: StateType, Equatable {
 
 extension MovieState {
 
-    fileprivate struct CreateDetailsAction: Action {
+    struct CreateDetailsAction: Action {
 
         let uuid: String
         let movieId: Int
@@ -49,6 +49,12 @@ extension MovieState {
 
             state.movieStates[uuid] = MovieState()
             state.movieStates[uuid]?.movieId = movieId
+            
+            state.movieStates[uuid]?.isDetailsLoading = true
+            state.movieStates[uuid]?.isCreditsLoading = true
+            state.movieStates[uuid]?.isRecommendedLoading = true
+            state.movieStates[uuid]?.isSimilarLoading = true
+            state.movieStates[uuid]?.isReviewLoading = true
         }
     }
 
@@ -59,71 +65,6 @@ extension MovieState {
         func updateState(_ state: inout State) {
 
             state.movieStates[uuid] = nil
-        }
-    }
-
-    struct CreateDetailsSE: SideEffect {
-
-        let uuid: String
-        let movieId: Int
-
-        func sideEffect(state: State, trunk: Trunk, dependencies: DependencyContainer) {
-
-            guard state.movieStates[uuid] == nil else { return }
-
-            trunk.dispatch(CreateDetailsAction(uuid: uuid, movieId: movieId))
-
-            loadDetails(state: state, trunk: trunk, dependencies: dependencies)
-        }
-
-        private func loadDetails(state: State, trunk: Trunk, dependencies: DependencyContainer) {
-
-            trunk.dispatch(LoadAction(category: .details, uuid: uuid))
-
-            _ = dependencies.api.request(target: UnauthorizedAPI.movieDetail(movie: movieId))
-            {
-                (result: Result<ServerModels.MovieDetails, Error>) in
-
-                switch result {
-                case .success(let data):
-                    trunk.dispatch(AppendDetailsAction(details: data, uuid: self.uuid))
-                case .failure:
-                    trunk.dispatch(ErrorLoadingAction(category: .details, uuid: self.uuid))
-                }
-            }
-        }
-        private func loadCredits(state: State, trunk: Trunk, dependencies: DependencyContainer) {
-
-        }
-        private func loadRecommended(state: State, trunk: Trunk, dependencies: DependencyContainer) {
-
-        }
-        private func loadSimilar(state: State, trunk: Trunk, dependencies: DependencyContainer) {
-
-        }
-        private func loadReview(state: State, trunk: Trunk, dependencies: DependencyContainer) {
-
-        }
-    }
-
-    struct LoadAction: Action {
-
-        let category: Category
-        let uuid: String
-
-        func updateState(_ state: inout State) {
-            switch category {
-            case .details:
-                state.movieStates[uuid]?.isDetailsLoading = true
-            case .credits:
-                state.movieStates[uuid]?.isCreditsLoading = true
-            case .recommended:
-                state.movieStates[uuid]?.isRecommendedLoading = true
-            case .similar:
-                state.movieStates[uuid]?.isSimilarLoading = true
-            case .review:
-                state.movieStates[uuid]?.isReviewLoading = true
-            }
         }
     }
 
@@ -148,7 +89,7 @@ extension MovieState {
         }
     }
 
-    fileprivate struct AppendDetailsAction: Action {
+    struct AppendDetailsAction: Action {
 
         var details: ServerModels.MovieDetails
         let uuid: String

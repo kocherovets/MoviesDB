@@ -17,7 +17,7 @@ struct CollectionCellVM: CellModel {
     
     let items: [PosterCVCellVM]
     
-    private let collectionDS = CollectionDS(cellType: .xib)
+    private let collectionDS = CollectionDS()
 
     func apply(to cell: CollectionCell) {
 

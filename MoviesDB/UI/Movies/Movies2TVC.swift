@@ -30,16 +30,16 @@ enum Movies2TVCModule {
 
         override func onInit(state: State, trunk: Trunk) {
             if state.moviesState.nowPlayingMovies.count == 0 {
-                trunk.dispatch(MoviesState.LoadNowPlayingMoviesSE())
+                trunk.dispatch(MoviesState.LoadAction(category: .nowPlaying))
             }
             if state.moviesState.upcomingMovies.count == 0 {
-                trunk.dispatch(MoviesState.LoadUpcomingMoviesSE())
+                trunk.dispatch(MoviesState.LoadAction(category: .upcoming))
             }
             if state.moviesState.trendingMovies.count == 0 {
-                trunk.dispatch(MoviesState.LoadTrendingMoviesSE())
+                trunk.dispatch(MoviesState.LoadAction(category: .trending))
             }
             if state.moviesState.popularMovies.count == 0 {
-                trunk.dispatch(MoviesState.LoadPopularMoviesSE())
+                trunk.dispatch(MoviesState.LoadAction(category: .popular))
             }
         }
 

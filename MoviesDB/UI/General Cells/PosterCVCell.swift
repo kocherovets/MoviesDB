@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PosterCVCell: UICollectionViewCell {
+class PosterCVCell: XibCollectionViewCell {
 
     @IBOutlet fileprivate weak var posterV: PosterView!
 

@@ -15,54 +15,63 @@ import Foundation
  reducers you can combine them by initializng a `MainReducer` with all of your reducers as an
  argument.
  */
+
+public struct AddSubscriberAction: Dispatchable {}
+
 open class Store<State: RootStateType>: StoreTrunk {
 
     typealias SubscriptionType = SubscriptionBox<State>
 
 //    private(set) public var state: State! {
-    private(set) public var state: State! {
-        didSet {
-            subscriptions.forEach {
-                if $0.subscriber == nil {
-                    subscriptions.remove($0)
-                } else {
-                    $0.newValues(oldState: oldValue, newState: state)
-                }
+    private var _state: State!
+    public var state: State { _state! }
+
+    private func set(state: State, lastAction: Dispatchable) {
+
+        let oldValue = _state ?? state
+        _state = state
+        
+        self.lastAction = lastAction
+
+        subscriptions.forEach {
+            if $0.subscriber == nil {
+                subscriptions.remove($0)
+            } else {
+                $0.newValues(oldState: oldValue, newState: state, lastAction: lastAction)
             }
         }
     }
 
-    let sideEffectDependencyContainer: SideEffectDependencyContainer
-
     var subscriptions: Set<SubscriptionType> = []
+    var loggingExcludedActions = [Dispatchable.Type]()
 
     private var isDispatching = false
     public let queue: DispatchQueue
-
+    public var lastAction: Dispatchable?
+    
     public var dispatchFunction: DispatchFunction!
 
-    /// Initializes the store with a reducer, an initial state and a list of middleware.
-    ///
-    /// Middleware is applied in the order in which it is passed into this constructor.
-    ///
-    /// - parameter reducer: Main reducer that processes incoming actions.
-    /// - parameter state: Initial state, if any. Can be `nil` and will be
-    ///   provided by the reducer in that case.
-    /// - parameter middleware: Ordered list of action pre-processors, acting
-    ///   before the root reducer.
-    /// - parameter automaticallySkipsRepeats: If `true`, the store will attempt
-    ///   to skip idempotent state updates when a subscriber's state type
-    ///   implements `Equatable`. Defaults to `true`.
+/// Initializes the store with a reducer, an initial state and a list of middleware.
+///
+/// Middleware is applied in the order in which it is passed into this constructor.
+///
+/// - parameter reducer: Main reducer that processes incoming actions.
+/// - parameter state: Initial state, if any. Can be `nil` and will be
+///   provided by the reducer in that case.
+/// - parameter middleware: Ordered list of action pre-processors, acting
+///   before the root reducer.
+/// - parameter automaticallySkipsRepeats: If `true`, the store will attempt
+///   to skip idempotent state updates when a subscriber's state type
+///   implements `Equatable`. Defaults to `true`.
     public required init(
         state: State?,
         queue: DispatchQueue,
-        sideEffectDependencyContainer: SideEffectDependencyContainer,
+        loggingExcludedActions: [Dispatchable.Type],
         middleware: [Middleware<State>] = []
     ) {
 
-        self.sideEffectDependencyContainer = sideEffectDependencyContainer
-
         self.queue = queue
+        self.loggingExcludedActions = loggingExcludedActions
 
         // Wrap the dispatch function with all middlewares
         self.dispatchFunction = middleware
@@ -79,7 +88,7 @@ open class Store<State: RootStateType>: StoreTrunk {
                 })
 
 
-        self.state = state
+        self._state = state
     }
 
     public func subscribe<SelectedState, S: StoreSubscriber> (_ subscriber: S)
@@ -92,8 +101,8 @@ open class Store<State: RootStateType>: StoreTrunk {
 
         subscriptions.update(with: subscriptionBox)
 
-        if let state = self.state {
-            originalSubscription.newValues(oldState: nil, newState: state)
+        if let state = self._state {
+            originalSubscription.newValues(oldState: nil, newState: state, lastAction: lastAction)
         }
     }
 
@@ -104,7 +113,7 @@ open class Store<State: RootStateType>: StoreTrunk {
         }
     }
 
-    // swiftlint:disable:next identifier_name
+// swiftlint:disable:next identifier_name
     private func _defaultDispatch(action: Dispatchable) {
         guard !isDispatching else {
             raiseFatalError(
@@ -123,11 +132,8 @@ open class Store<State: RootStateType>: StoreTrunk {
 
             switch action {
             case let action as AnyAction:
-                self.state = action.updatedState(currentState: self.state) as? State
-            case let sideEffect as AnySideEffect:
-                sideEffect.sideEffect(state: self.state,
-                                      trunk: SideEffectTrunk(storeTrunk: self),
-                                      dependencies: self.sideEffectDependencyContainer)
+                self.set(state: action.updatedState(currentState: self.state) as! State,
+                         lastAction: action)
             default:
                 break
             }
@@ -143,28 +149,29 @@ open class Store<State: RootStateType>: StoreTrunk {
     }
 
     public func dispatch(_ action: Dispatchable,
-                       file: String = #file,
-                       function: String = #function,
-                       line: Int = #line) {
+                         file: String = #file,
+                         function: String = #function,
+                         line: Int = #line) {
 
-        var type: String
-        switch action {
-        case _ as AnyAction:
-            type = "---ACTION---"
-        case _ as AnySideEffect:
-            type = "---SIDE EFFECT---"
-        default:
-            type = "---MIDDLEWARE---"
+        if loggingExcludedActions.first(where: { $0 == type(of: action) }) == nil {
+
+            var type: String
+            switch action {
+            case _ as AnyAction:
+                type = "---ACTION---"
+            default:
+                type = "---MIDDLEWARE---"
+            }
+            let log =
+                """
+            \(type)
+            \(action)
+            file: \(file):\(line)
+            function: \(function)
+            .
+            """
+            print(log)
         }
-        let log =
-        """
-        \(type)
-        \(action)
-        file: \(file):\(line)
-        function: \(function)
-        .
-        """
-        print(log)
 
         dispatchFunction(action)
     }

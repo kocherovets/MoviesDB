@@ -25,14 +25,15 @@ public class AppFramework: DIFramework {
             .as(DispatchQueue.self, name: "storeQueue")
             .lifetime(.single)
 
-        container.register (DependencyContainer.init)
-            .lifetime(.single)
-
         container.register {
             Store<State>(state: $0,
                          queue: $1,
-                         sideEffectDependencyContainer: container.resolve() as DependencyContainer,
-                         middleware: []) }
+                         loggingExcludedActions: [],
+                         middleware: [])
+        }
+            .lifetime(.single)
+
+        container.register (APIService.init)
             .lifetime(.single)
 
         container.registerStoryboard(name: "Main").lifetime(.single)

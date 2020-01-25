@@ -127,28 +127,6 @@ extension MoviesState {
         }
     }
 
-    struct LoadNowPlayingMoviesSE: SideEffect {
-
-        func sideEffect(state: State, trunk: Trunk, dependencies: DependencyContainer) {
-
-            guard !state.moviesState.isNowPlayingLoading else { return }
-
-            trunk.dispatch(LoadAction(category: .nowPlaying))
-
-            _ = dependencies.api.request(target: UnauthorizedAPI.nowPlaying(page: state.moviesState.nowPlayingPage + 1))
-            {
-                (result: Result<ServerModels.NowPlaying, Error>) in
-
-                switch result {
-                case .success(let data):
-                    trunk.dispatch(AppendNowPlayingMoviesAction(movies: data.results))
-                case .failure:
-                    trunk.dispatch(ErrorLoadingAction(category: .nowPlaying))
-                }
-            }
-        }
-    }
-
     struct AppendUpcomingMoviesAction: Action {
 
         var movies: [ServerModels.Movie]
@@ -158,27 +136,6 @@ extension MoviesState {
             state.moviesState.isUpcomingLoading = false
             state.moviesState.upcomingPage += 1
             state.moviesState.upcomingMovies.append(contentsOf: movies)
-        }
-    }
-
-    struct LoadUpcomingMoviesSE: SideEffect {
-
-        func sideEffect(state: State, trunk: Trunk, dependencies: DependencyContainer) {
-
-            guard !state.moviesState.isUpcomingLoading else { return }
-
-            trunk.dispatch(LoadAction(category: .upcoming))
-
-            _ = dependencies.api.request(target: UnauthorizedAPI.upcoming(page: state.moviesState.upcomingPage + 1))
-            {
-                (result: Result<ServerModels.Upcoming, Error>) in
-                switch result {
-                case .success(let data):
-                    trunk.dispatch(AppendUpcomingMoviesAction(movies: data.results))
-                case .failure:
-                    trunk.dispatch(ErrorLoadingAction(category: .upcoming))
-                }
-            }
         }
     }
 
@@ -194,27 +151,6 @@ extension MoviesState {
         }
     }
 
-    struct LoadTrendingMoviesSE: SideEffect {
-
-        func sideEffect(state: State, trunk: Trunk, dependencies: DependencyContainer) {
-
-            guard !state.moviesState.isTrendingLoading else { return }
-
-            trunk.dispatch(LoadAction(category: .trending))
-
-            _ = dependencies.api.request(target: UnauthorizedAPI.trending(page: state.moviesState.trendingPage + 1))
-            {
-                (result: Result<ServerModels.Trending, Error>) in
-                switch result {
-                case .success(let data):
-                    trunk.dispatch(AppendTrendingMoviesAction(movies: data.results))
-                case .failure:
-                    trunk.dispatch(ErrorLoadingAction(category: .trending))
-                }
-            }
-        }
-    }
-
     struct AppendPopularMoviesAction: Action {
 
         var movies: [ServerModels.Movie]
@@ -224,27 +160,6 @@ extension MoviesState {
             state.moviesState.isPopularLoading = false
             state.moviesState.popularPage += 1
             state.moviesState.popularMovies.append(contentsOf: movies)
-        }
-    }
-
-    struct LoadPopularMoviesSE: SideEffect {
-
-        func sideEffect(state: State, trunk: Trunk, dependencies: DependencyContainer) {
-
-            guard !state.moviesState.isPopularLoading else { return }
-
-            trunk.dispatch(LoadAction(category: .popular))
-
-            _ = dependencies.api.request(target: UnauthorizedAPI.popular(page: state.moviesState.popularPage + 1))
-            {
-                (result: Result<ServerModels.Popular, Error>) in
-                switch result {
-                case .success(let data):
-                    trunk.dispatch(AppendPopularMoviesAction(movies: data.results))
-                case .failure:
-                    trunk.dispatch(ErrorLoadingAction(category: .popular))
-                }
-            }
         }
     }
 }
