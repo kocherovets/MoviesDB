@@ -9,6 +9,7 @@ def shared_pods
     pod 'Moya', '~> 13.0'
     pod 'Kingfisher', '~> 5.0'
     pod 'DITranquillity'
+#    pod 'GRDB.swift'
 end
 
 target "MoviesDB" do
