@@ -18,8 +18,8 @@ PODS:
   - Moya/Core (13.0.1):
     - Alamofire (~> 4.1)
     - Result (~> 4.1)
-  - RedSwift (1.0.18)
-  - ReduxVM (1.0.28):
+  - RedSwift (1.0.21)
+  - ReduxVM (1.0.31):
     - DeclarativeTVC
     - RedSwift
   - Result (4.1.0)
@@ -51,8 +51,8 @@ SPEC CHECKSUMS:
   DITranquillity: 7aba075b73dbb1f321a1218dd3d9f1bd5ad9427b
   Kingfisher: d342c8354c10c3d85a27d6d4c42c41285924b898
   Moya: f4a4b80ff2f8a4ffc208dfb31cd91636622fee6e
-  RedSwift: be79b125331bf6d1f8bc8b1c36ff5801024b4501
-  ReduxVM: 3d3d1884bda01a8b13b36ce38c3138c0262e459b
+  RedSwift: bc8935bc97d81d10bf4a8d80250c91cd5f38aba4
+  ReduxVM: 17af30634f1f3d201b7186137e429251792710fd
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
   SwiftLazy: dcb1edc6c2b633ba2e68f28554d9dd6d1c0bfd13
 

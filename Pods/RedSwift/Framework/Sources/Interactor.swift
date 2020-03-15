@@ -1,5 +1,5 @@
 //
-//  Service.swift
+//  Interactor.swift
 //  Framework
 //
 //  Created by Dmitry Kocherovets on 15.01.2020.
@@ -12,17 +12,17 @@ public protocol AnySideEffect {
 
     func condition(box: Any) -> Bool
 
-    func execute(box: Any, trunk: Trunk, service: Any)
+    func execute(box: Any, trunk: Trunk, interactor: Any)
 }
 
 public protocol SideEffect: AnySideEffect {
 
     associatedtype SStateType
-    associatedtype Service
+    associatedtype Interactor
 
     func condition(box: StateBox<SStateType>) -> Bool
 
-    func execute(box: StateBox<SStateType>, trunk: Trunk, service: Service)
+    func execute(box: StateBox<SStateType>, trunk: Trunk, interactor: Interactor)
 }
 
 public extension SideEffect {
@@ -32,13 +32,13 @@ public extension SideEffect {
         return condition(box: box as! StateBox<SStateType>)
     }
 
-    func execute(box: Any, trunk: Trunk, service: Any) {
+    func execute(box: Any, trunk: Trunk, interactor: Any) {
 
-        execute(box: box as! StateBox<SStateType>, trunk: trunk, service: service as! Service)
+        execute(box: box as! StateBox<SStateType>, trunk: trunk, interactor: interactor as! Interactor)
     }
 }
 
-open class Service<State: RootStateType>: StoreSubscriber, Trunk {
+open class Interactor<State: RootStateType>: StoreSubscriber, Trunk {
 
     private var store: Store<State>
     public var storeTrunk: StoreTrunk { store }
@@ -50,24 +50,31 @@ open class Service<State: RootStateType>: StoreSubscriber, Trunk {
 
         self.store = store
         store.subscribe(self)
-        
+
         onInit()
     }
 
     open func onInit() {
-        
+
     }
-    
+
     deinit {
         store.unsubscribe(self)
     }
 
     public func stateChanged(box: StateBox<State>) {
 
-        for sideEffect in sideEffects {
-            if sideEffect.condition(box: box) {
-                sideEffect.execute(box: box, trunk: self, service: self)
+        if condition(box: box) {
+            for sideEffect in sideEffects {
+                if sideEffect.condition(box: box) {
+                    sideEffect.execute(box: box, trunk: self, interactor: self)
+                }
             }
         }
+    }
+
+    open func condition(box: Any) -> Bool {
+
+        return true
     }
 }

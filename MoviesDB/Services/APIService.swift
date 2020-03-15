@@ -10,7 +10,7 @@ import Foundation
 import RedSwift
 import ReduxVM
 
-class APIService: Service<State> {
+class APIInteractor: Interactor<State> {
 
     let api = UnauthorizedAPI.self
 
@@ -29,7 +29,7 @@ class APIService: Service<State> {
     }
 }
 
-extension APIService {
+extension APIInteractor {
 
     fileprivate struct LoadNowPlayingMoviesSE: SideEffect {
 
@@ -44,9 +44,9 @@ extension APIService {
             return false
         }
 
-        func execute(box: StateBox<State>, trunk: Trunk, service: APIService) {
+        func execute(box: StateBox<State>, trunk: Trunk, interactor: APIInteractor) {
 
-            _ = service.api.request(target: UnauthorizedAPI.nowPlaying(page: box.state.moviesState.nowPlayingPage + 1))
+            _ = interactor.api.request(target: UnauthorizedAPI.nowPlaying(page: box.state.moviesState.nowPlayingPage + 1))
             {
                 (result: Result<ServerModels.NowPlaying, Error>) in
 
@@ -73,9 +73,9 @@ extension APIService {
             return false
         }
 
-        func execute(box: StateBox<State>, trunk: Trunk, service: APIService) {
+        func execute(box: StateBox<State>, trunk: Trunk, interactor: APIInteractor) {
 
-            _ = service.api.request(target: UnauthorizedAPI.upcoming(page: box.state.moviesState.upcomingPage + 1))
+            _ = interactor.api.request(target: UnauthorizedAPI.upcoming(page: box.state.moviesState.upcomingPage + 1))
             {
                 (result: Result<ServerModels.Upcoming, Error>) in
 
@@ -102,9 +102,9 @@ extension APIService {
             return false
         }
 
-        func execute(box: StateBox<State>, trunk: Trunk, service: APIService) {
+        func execute(box: StateBox<State>, trunk: Trunk, interactor: APIInteractor) {
 
-            _ = service.api.request(target: UnauthorizedAPI.trending(page: box.state.moviesState.trendingPage + 1))
+            _ = interactor.api.request(target: UnauthorizedAPI.trending(page: box.state.moviesState.trendingPage + 1))
             {
                 (result: Result<ServerModels.Trending, Error>) in
 
@@ -131,9 +131,9 @@ extension APIService {
             return false
         }
 
-        func execute(box: StateBox<State>, trunk: Trunk, service: APIService) {
+        func execute(box: StateBox<State>, trunk: Trunk, interactor: APIInteractor) {
 
-            _ = service.api.request(target: UnauthorizedAPI.popular(page: box.state.moviesState.popularPage + 1))
+            _ = interactor.api.request(target: UnauthorizedAPI.popular(page: box.state.moviesState.popularPage + 1))
             {
                 (result: Result<ServerModels.Popular, Error>) in
 
@@ -163,12 +163,12 @@ extension APIService {
             return false
         }
 
-        func execute(box: StateBox<State>, trunk: Trunk, service: APIService) {
+        func execute(box: StateBox<State>, trunk: Trunk, interactor: APIInteractor) {
 
             guard let action = box.lastAction as? MovieState.CreateDetailsAction,
                 let movieState = box.state.movieStates[action.uuid] else { return }
 
-            _ = service.api.request(target: UnauthorizedAPI.movieDetail(movie: movieState.movieId))
+            _ = interactor.api.request(target: UnauthorizedAPI.movieDetail(movie: movieState.movieId))
             {
                 (result: Result<ServerModels.MovieDetails, Error>) in
 
