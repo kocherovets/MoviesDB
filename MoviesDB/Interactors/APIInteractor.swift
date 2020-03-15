@@ -12,7 +12,14 @@ import ReduxVM
 
 class APIInteractor: Interactor<State> {
 
-    let api = UnauthorizedAPI.self
+    fileprivate let api: UnauthorizedAPI.Type // = UnauthorizedAPI.self
+
+    init(store: Store<State>, api: UnauthorizedAPI.Type) {
+
+        self.api = api
+
+        super.init(store: store)
+    }
 
     override var sideEffects: [AnySideEffect] {
         [
