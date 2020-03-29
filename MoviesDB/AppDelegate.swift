@@ -34,8 +34,19 @@ public class AppFramework: DIFramework {
         }
             .lifetime(.single)
 
-        container.register { APIInteractor(store: $0, api: UnauthorizedAPI.self) }
+        container.register (DBService.init)
             .lifetime(.single)
+
+        container.register { LoadMoviesInteractor(store: $0,
+                                                  api: UnauthorizedAPI.self,
+                                                  db: $1)
+
+        }.lifetime(.single)
+
+        container.register { SyncStateAndDBInteractor(store: $0,
+                                                      db: $1)
+
+        }.lifetime(.single)
 
         container.registerStoryboard(name: "Main").lifetime(.single)
         container.registerStoryboard(name: "Movies").lifetime(.single)
