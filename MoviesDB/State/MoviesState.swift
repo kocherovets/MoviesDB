@@ -17,6 +17,27 @@ struct MoviesState: StateType, Equatable {
         case trending = 2
         case popular = 3
     }
+
+    struct Movie: Equatable {
+        var category: MoviesState.Category
+        var id: Int
+        var title: String
+        var overview: String
+        var releaseDate: String
+        var votePercentage: Int
+        var posterPath: String?
+
+        init(movieDB: MovieDB) {
+            self.category = MoviesState.Category(rawValue: Int(movieDB.category))!
+            self.id = Int(movieDB.id)
+            self.title = movieDB.title
+            self.overview = movieDB.overview
+            self.releaseDate = movieDB.releaseDate
+            self.votePercentage = Int(movieDB.votePercentage)
+            self.posterPath = movieDB.posterPath
+        }
+    }
+
     var selectedCategory = Category.nowPlaying
 
     enum ViewMode {
@@ -25,29 +46,21 @@ struct MoviesState: StateType, Equatable {
     }
     var viewMode = ViewMode.general
 
-//    var isNowPlayingLoading = false
     var nowPlayingPage: Int = 0
     var nowPlayingMovies = [Movie]()
     var loadNowPlayingMoviesState = LoadMovies.none
 
-//    var isUpcomingLoading = false
     var upcomingPage: Int = 0
     var upcomingMovies = [Movie]()
     var loadUpcomingMoviesState = LoadMovies.none
 
-//    var isTrendingLoading = false
     var trendingPage: Int = 0
     var trendingMovies = [Movie]()
     var loadTrendingMoviesState = LoadMovies.none
 
-//    var isPopularLoading = false
     var popularPage: Int = 0
     var popularMovies = [Movie]()
     var loadPopularMoviesState = LoadMovies.none
-
-//    var isLoading: Bool {
-//        return isNowPlayingLoading || isUpcomingLoading || isTrendingLoading || isPopularLoading
-//    }
 
     var selectedCategoryMovies: [Movie] {
         switch selectedCategory {
@@ -65,41 +78,25 @@ struct MoviesState: StateType, Equatable {
 
 extension MoviesState {
 
-//    struct LoadAction: Action {
-//
-//        let category: Category
-//
-//        func updateState(_ state: inout State) {
-//            switch category {
-//            case .nowPlaying:
-//                state.moviesState.isNowPlayingLoading = true
-//            case .upcoming:
-//                state.moviesState.isUpcomingLoading = true
-//            case .trending:
-//                state.moviesState.isTrendingLoading = true
-//            case .popular:
-//                state.moviesState.isPopularLoading = true
-//            }
-//        }
-//    }
+    struct SetMoviesAction: Action {
 
-//    struct ErrorLoadingAction: Action {
-//
-//        let category: Category
-//
-//        func updateState(_ state: inout State) {
-//            switch category {
-//            case .nowPlaying:
-//                state.moviesState.isNowPlayingLoading = false
-//            case .upcoming:
-//                state.moviesState.isUpcomingLoading = false
-//            case .trending:
-//                state.moviesState.isTrendingLoading = false
-//            case .popular:
-//                state.moviesState.isPopularLoading = false
-//            }
-//        }
-//    }
+        var category: MoviesState.Category
+        var movies: [Movie]
+
+        func updateState(_ state: inout State) {
+
+            switch category {
+            case .nowPlaying:
+                state.moviesState.nowPlayingMovies = movies
+            case .upcoming:
+                state.moviesState.upcomingMovies = movies
+            case .trending:
+                state.moviesState.trendingMovies = movies
+            case .popular:
+                state.moviesState.popularMovies = movies
+            }
+        }
+    }
 
     struct ChangeSelectedCategoryAction: Action {
 
@@ -119,51 +116,4 @@ extension MoviesState {
         }
     }
 
-//    struct AppendNowPlayingMoviesAction: Action {
-//
-//        var movies: [ServerModels.Movie]
-//
-//        func updateState(_ state: inout State) {
-//
-//            state.moviesState.isNowPlayingLoading = false
-//            state.moviesState.nowPlayingPage += 1
-//            state.moviesState.nowPlayingMovies.append(contentsOf: movies)
-//        }
-//    }
-//
-//    struct AppendUpcomingMoviesAction: Action {
-//
-//        var movies: [ServerModels.Movie]
-//
-//        func updateState(_ state: inout State) {
-//
-//            state.moviesState.isUpcomingLoading = false
-//            state.moviesState.upcomingPage += 1
-//            state.moviesState.upcomingMovies.append(contentsOf: movies)
-//        }
-//    }
-//
-//    struct AppendTrendingMoviesAction: Action {
-//
-//        var movies: [ServerModels.Movie]
-//
-//        func updateState(_ state: inout State) {
-//
-//            state.moviesState.isTrendingLoading = false
-//            state.moviesState.trendingPage += 1
-//            state.moviesState.trendingMovies.append(contentsOf: movies)
-//        }
-//    }
-//
-//    struct AppendPopularMoviesAction: Action {
-//
-//        var movies: [ServerModels.Movie]
-//
-//        func updateState(_ state: inout State) {
-//
-//            state.moviesState.isPopularLoading = false
-//            state.moviesState.popularPage += 1
-//            state.moviesState.popularMovies.append(contentsOf: movies)
-//        }
-//    }
 }

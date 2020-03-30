@@ -45,7 +45,6 @@
 		C3ACC18A242FE53800746F44 /* LoadMoviesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3ACC189242FE53800746F44 /* LoadMoviesInteractor.swift */; };
 		C3ACC18C242FE62F00746F44 /* DBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3ACC18B242FE62F00746F44 /* DBService.swift */; };
 		C3ACC18E2431379500746F44 /* SyncStateAndDBInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3ACC18D2431379500746F44 /* SyncStateAndDBInteractor.swift */; };
-		C3C0F35423DC66730035F691 /* APIInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C0F35323DC66730035F691 /* APIInteractor.swift */; };
 		C3DFBAC72378A0C2003259FF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DFBAC62378A0C2003259FF /* AppDelegate.swift */; };
 		C3DFBAC92378A0C2003259FF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DFBAC82378A0C2003259FF /* SceneDelegate.swift */; };
 		C3DFBACE2378A0C2003259FF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3DFBACC2378A0C2003259FF /* Main.storyboard */; };
@@ -123,7 +122,6 @@
 		C3ACC189242FE53800746F44 /* LoadMoviesInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMoviesInteractor.swift; sourceTree = "<group>"; };
 		C3ACC18B242FE62F00746F44 /* DBService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBService.swift; sourceTree = "<group>"; };
 		C3ACC18D2431379500746F44 /* SyncStateAndDBInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncStateAndDBInteractor.swift; sourceTree = "<group>"; };
-		C3C0F35323DC66730035F691 /* APIInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIInteractor.swift; sourceTree = "<group>"; };
 		C3DFBAC32378A0C2003259FF /* MoviesDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoviesDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3DFBAC62378A0C2003259FF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3DFBAC82378A0C2003259FF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -268,7 +266,6 @@
 		C3C0F35223DC66540035F691 /* Interactors */ = {
 			isa = PBXGroup;
 			children = (
-				C3C0F35323DC66730035F691 /* APIInteractor.swift */,
 				C3ACC189242FE53800746F44 /* LoadMoviesInteractor.swift */,
 				C3ACC18D2431379500746F44 /* SyncStateAndDBInteractor.swift */,
 				C3ACC18B242FE62F00746F44 /* DBService.swift */,
@@ -673,7 +670,6 @@
 				C3DFBAFC2378A553003259FF /* MoviesVC.swift in Sources */,
 				C357027E238C7525008FC600 /* MoviesTVC.swift in Sources */,
 				C3ECD69E2394739F00203CA4 /* PosterCVCell.swift in Sources */,
-				C3C0F35423DC66730035F691 /* APIInteractor.swift in Sources */,
 				C3ACC18E2431379500746F44 /* SyncStateAndDBInteractor.swift in Sources */,
 				C3DFBAC72378A0C2003259FF /* AppDelegate.swift in Sources */,
 				C38A5F4123A6D58800E4C167 /* MovieDetails.swift in Sources */,
